@@ -51,3 +51,10 @@ console.log(Object.keys(player_hand).length);
 
 //
 
+// type Card = {tag: "blue6", color: "blue", value: 6};
+
+const foobar: Card = {"blue6": {color: "blue", value: 6}};
+
+function add_to_hand(player_hand: Hand, {}: Card) {
+    player_hand[c.tag] = 
+}
