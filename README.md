@@ -33,3 +33,6 @@ we will check eachothers progress, and if someone is slacking me might redistrib
 
 What happens if someone is not communicating in the manner or frequency agreed upon?
 make contact with that person, and ask them to communicate with the agreed upon channel.  -->
+
+
+#need to add how to play game and what libs and requirments it has. 
