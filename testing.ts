@@ -17,7 +17,8 @@ type Card_info = {color: Color, value: Value};
 // ex {red4: {color: "red", value: 4}}
 type Card = {[tag: string]: Card_info};
 
-//ex {red4: {color: "red", value: 4}, blue6: { color: 'blue', value: 6 }}
+//ex {red4: {color: "red", value: 4}, 
+//    blue6: { color: 'blue', value: 6 }}
 
 type Hand = Record<string, Card_info>;
 
@@ -39,11 +40,14 @@ player_hand["blue6"] = {color: "blue", value: 6};
 player_hand["draw4"] = {color: "wild", value: "+4"};
 player_hand["green9"] = {color: "green", value: 9};
 
-console.log("color should be wild ==== ", player_hand.draw4.color);
-console.log("after adding: ");
+console.log(player_hand.draw4.value);
+
+// console.log("color should be wild ==== ", player_hand.draw4.color);
+// console.log("after adding: ");
 
 //gives number of keys in the record:
-console.log(Object.keys(player_hand).length);
+
+//console.log(Object.keys(player_hand).length);
 
 //maybe type Card = {[tag: string]: Card_info};
 //should have list(Card_info, Card_info) and when a card is picked we only have list(Card_info), 
@@ -53,8 +57,3 @@ console.log(Object.keys(player_hand).length);
 
 // type Card = {tag: "blue6", color: "blue", value: 6};
 
-const foobar: Card = {"blue6": {color: "blue", value: 6}};
-
-function add_to_hand(player_hand: Hand, {}: Card) {
-    player_hand[c.tag] = 
-}
