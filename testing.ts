@@ -1,10 +1,20 @@
 //hello
 
 
-type Hand = {
-    name: string,
+type Color = "red" | "yellow" | "blue" | "green" | "wild";
 
-}
+type Value = number | "+4" | "+2" | "new color" | "skip" | "reverse";
 
-["red 1", "blue 5", "+4", "+2", "skip", "yellow 8"]
+
+type card = {color: Color, value: Value}
+
+
+
+
+// const foo: card = {color: "red", value: 7};
+
+// foo.color = "green";
+// foo.value = "new color";
+
+// console.log(foo);
 
