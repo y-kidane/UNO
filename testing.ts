@@ -1,5 +1,6 @@
-import { is_null, head, list, tail, List } from "./lib/list";
+import { is_null, head, list, tail, List, pair } from "./lib/list";
 import { Card, Color, Value, Card_info, Hand } from "./types";
+import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head as q_head } from "./lib/queue_array";
 
 //red, green, blue, yellow: 2 * (1-9, skip, reverse, +2) 
 //  one 0 in each color
@@ -47,4 +48,24 @@ function make_card(col: Color, val: Value): Card {
     return {[`${col}${val}`]: {color: col, value: val}};
 }
 
-console.log(make_card("red", 9));
+//console.log(make_card("red", 9));
+
+function make_color(col: Color) {
+    const num = 10;
+    const p2 = "+2";
+    const skip = "skip"; 
+    const rev = "reverse";
+    let res = null;
+
+    for(let i = 0; i < 10; i++) {
+        //res = pair(make_card(col, i), res);
+        const curr = make_card(col, i);
+        console.log(list(curr, curr));
+
+    }
+    
+    //return res;
+}
+
+make_color("green");
+
