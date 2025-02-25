@@ -43,11 +43,19 @@ import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head
 
 // type Card = {tag: "blue6", color: "blue", value: 6};
 
-
+// ex red and 
+// function make_tag(col: Color, val: Value): string {
+//     return `${col}${val}`;
+// }
 
 //example: make_card(red, 7) ===>>>> {red7: {color: red, value: 7}};
 function make_card(col: Color, val: Value): Card {
-    return {[`${col}${val}`]: {color: col, value: val}};
+    return {
+        tag: `${col}${val}`,
+        CI: {color: col, value: val}
+    };
+    
+    //return {[`${col}${val}`]: {color: col, value: val}};
 }
 function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
 
@@ -132,6 +140,6 @@ const p_hand: Queue<Card> = empty_q<Card>();
 
 //export type Card = {[tag: string]: Card_info};
 
-const redy = make_card("blue", 5);
+const foo = make_card("blue", 5);
 
-console.log(make_tag(redy));
+console.log(foo.CI);
