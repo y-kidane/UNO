@@ -43,6 +43,8 @@ import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head
 
 // type Card = {tag: "blue6", color: "blue", value: 6};
 
+
+
 //example: make_card(red, 7) ===>>>> {red7: {color: red, value: 7}};
 function make_card(col: Color, val: Value): Card {
     return {[`${col}${val}`]: {color: col, value: val}};
@@ -108,16 +110,28 @@ function make_wild_card(q: Queue<Card>): Queue<Card> {
 
 // }
 
+function add_card_to_hand(c: Card, hand: Hand) {
+
+}
+
+
 const p_hand: Queue<Card> = empty_q<Card>();
 
-make_color("red", p_hand);
-make_color("yellow", p_hand);
-make_color("blue", p_hand);
-make_color("green", p_hand);
-make_wild_card(p_hand);
+// make_color("red", p_hand);
+// make_color("yellow", p_hand);
+// make_color("blue", p_hand);
+// make_color("green", p_hand);
+// make_wild_card(p_hand);
 
-display_queue(p_hand);
+// display_queue(p_hand);
 
 //now we have a deck.
 
 
+//add card to hand function test
+
+//export type Card = {[tag: string]: Card_info};
+
+const redy = make_card("blue", 5);
+
+console.log(make_tag(redy));
