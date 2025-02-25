@@ -1,20 +1,32 @@
-//card can have either a color or wild(black)
-type Color = "red" | "yellow" | "blue" | "green" | "wild";
+import { Pair, pair, list, List, head, tail, is_null, length } from "./lib/list";
 
-//value could be either of these:
-type Value = number | "+4" | "+2" | "new color" | "skip" | "reverse";
+
+
+/**
+ * represent the color of a card.
+ */
+export type Color = "red" | "yellow" | "blue" | "green" | "wild";
+
+/*
+The type of value a card can have
+**/
+export type Value = number | "+4" | "+2" | "new color" | "skip" | "reverse";
 
 // ex: {color: "red", value: 4}
-type Card_info = {color: Color, value: Value}; 
+/**
+ * information about a card, described by 2 parameters
+ * 
+ */
+export type Card_info = {color: Color, value: Value}; 
 
 // ex {red4: {color: "red", value: 4}}
 //     = key      =value
-type Card = {[tag: string]: Card_info};
+export type Card = {[tag: string]: Card_info};
 
 //ex {red4: {color: "red", value: 4}, 
 //    blue6: { color: 'blue', value: 6 }}
 
-type Hand = Record<string, Card_info>;
+export type Hand = Record<string, List<Card_info>>;
 
 //removing card: by its tag/key
 
@@ -22,3 +34,7 @@ type Hand = Record<string, Card_info>;
 
 //adding card to hand: needs tag and card_info:
 // player_hand[new_key]
+
+//now testing making each card value a pair to contain 2 of each cards
+
+
