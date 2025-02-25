@@ -10,3 +10,4 @@ this is a file with backlog and things to do on the project:
 - making the 108 cards using for loop, so we have a cad deck
 
 
+- make fisher yates shuffle in array:

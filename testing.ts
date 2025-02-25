@@ -1,6 +1,6 @@
 import { is_null, head, list, tail, List, pair } from "./lib/list";
 import { Card, Color, Value, Card_info, Hand } from "./types";
-import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head as q_head } from "./lib/queue_array";
+import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
 
 //red, green, blue, yellow: 2 * (1-9, skip, reverse, +2) 
 //  one 0 in each color
@@ -47,70 +47,77 @@ import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head
 function make_card(col: Color, val: Value): Card {
     return {[`${col}${val}`]: {color: col, value: val}};
 }
+function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
+
+    for(let j = 0; j < n; j++) {
+        enqueue(e, q);
+    }
+
+    return q;
+}
+
+//display_queue(many_enques<boolean>(2, empty_q<boolean>(), true));
+
 
 //console.log(make_card("red", 9));
 
-function make_color(col: Color): List<Card> {
+function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
     const p2 = "+2";
     const skip = "skip"; 
     const rev = "reverse";
-    let res = null;
+    //let res = null;
 
     for(let i = 1; i < 10; i++) {
         
-        const curr = make_card(col, i); //make red1 ex
-        res = pair(curr, pair(curr, res)); //2 av varje kort läggs till listan
-        //console.log(list(curr, curr));
+        const curr = make_card(col, i); 
+        many_enques(2, q, curr);
+        
     }
 
     const p2_card = make_card(col, p2);
-    res = pair(p2_card, pair(p2_card, res));
+    many_enques(2, q, p2_card);
 
     const skip_card = make_card(col, skip);
-    res = pair(skip_card, pair(skip_card, res));
+    many_enques(2, q, skip_card);
 
     const rev_card = make_card(col, rev);
-    res = pair(rev_card, pair(rev_card, res));
+    many_enques(2, q, rev_card);
 
-    //loop for making 0 card:
-    res = pair(make_card(col, 0), res);
-
-    // let colz: List<Color> = list("red", "blue", "yellow", "green");
-
-    // while(!is_null(colz)) {
-    //     res = pair(make_card(head(colz), 0), res);
-    //     colz = tail(colz);
-    // }
-
-    // while(!is_null(res)){
-    //     console.log(head(res));
-    //     res = tail(res);
-    // }
-  
-
+    //add one 0 card to q
+    enqueue(make_card(col, 0), q);
     
-    return res;
+    return q;
 }
 
-//make_color("blue");
-
-
-function make_wild_card(): List<Card> {
+function make_wild_card(q: Queue<Card>): Queue<Card> {
     const col: Color = "wild";
     const take_4: Value = "+4";
     const pick_col: Value = "new color";
-
     const made_4 = make_card(col, take_4);
     const made_pick_c = make_card(col, pick_col);
+    many_enques(4, q, made_4);
+    many_enques(4, q, made_pick_c);
 
-    const res_l = list(made_4, made_4, made_4, made_4, 
-                       made_pick_c, made_pick_c, made_pick_c, made_pick_c);
-    return res_l;
+    return q;
     
 }
 
-function make_all_cards(): Queue<Card> {
-    const deck: Queue<Card> = empty_q();
+// function make_all_cards(): Queue<Card> {
+//     const deck: Queue<Card> = empty_q();
 
-    
-}
+
+// }
+
+const p_hand: Queue<Card> = empty_q<Card>();
+
+make_color("red", p_hand);
+make_color("yellow", p_hand);
+make_color("blue", p_hand);
+make_color("green", p_hand);
+make_wild_card(p_hand);
+
+display_queue(p_hand);
+
+//now we have a deck.
+
+
