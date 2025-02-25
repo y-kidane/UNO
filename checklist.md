@@ -11,3 +11,6 @@ this is a file with backlog and things to do on the project:
 
 
 - make fisher yates shuffle in array:
+- after arr deck, fix shuffle, array index for queue stays the same, then fix distribute to pvc.
+- currently using list lib, stack lib, queue lib. 
+
