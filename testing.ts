@@ -45,19 +45,19 @@ import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head
 
 //example: make_card(red, 7) ===>>>> {red7: {color: red, value: 7}};
 function make_card(col: Color, val: Value): Card {
-    return {[`${col}${val}`]: {color: col, value: val}};
+    return { [`${col}${val}`]: { color: col, value: val } };
 }
 
 //console.log(make_card("red", 9));
 
 function make_color(col: Color): List<Card> {
     const p2 = "+2";
-    const skip = "skip"; 
+    const skip = "skip";
     const rev = "reverse";
     let res = null;
 
-    for(let i = 1; i < 10; i++) {
-        
+    for (let i = 1; i < 10; i++) {
+
         const curr = make_card(col, i); //make red1 ex
         res = pair(curr, pair(curr, res)); //2 av varje kort läggs till listan
         //console.log(list(curr, curr));
@@ -86,9 +86,9 @@ function make_color(col: Color): List<Card> {
     //     console.log(head(res));
     //     res = tail(res);
     // }
-  
 
-    
+
+
     return res;
 }
 
@@ -103,14 +103,18 @@ function make_wild_card(): List<Card> {
     const made_4 = make_card(col, take_4);
     const made_pick_c = make_card(col, pick_col);
 
-    const res_l = list(made_4, made_4, made_4, made_4, 
-                       made_pick_c, made_pick_c, made_pick_c, made_pick_c);
+    const res_l = list(made_4, made_4, made_4, made_4,
+        made_pick_c, made_pick_c, made_pick_c, made_pick_c);
     return res_l;
-    
+
 }
 
 function make_all_cards(): Queue<Card> {
     const deck: Queue<Card> = empty_q();
 
-    
+
 }
+
+
+//hej
+
