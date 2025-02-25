@@ -50,22 +50,67 @@ function make_card(col: Color, val: Value): Card {
 
 //console.log(make_card("red", 9));
 
-function make_color(col: Color) {
-    const num = 10;
+function make_color(col: Color): List<Card> {
     const p2 = "+2";
     const skip = "skip"; 
     const rev = "reverse";
     let res = null;
 
-    for(let i = 0; i < 10; i++) {
-        //res = pair(make_card(col, i), res);
-        const curr = make_card(col, i);
-        console.log(list(curr, curr));
-
+    for(let i = 1; i < 10; i++) {
+        
+        const curr = make_card(col, i); //make red1 ex
+        res = pair(curr, pair(curr, res)); //2 av varje kort läggs till listan
+        //console.log(list(curr, curr));
     }
+
+    const p2_card = make_card(col, p2);
+    res = pair(p2_card, pair(p2_card, res));
+
+    const skip_card = make_card(col, skip);
+    res = pair(skip_card, pair(skip_card, res));
+
+    const rev_card = make_card(col, rev);
+    res = pair(rev_card, pair(rev_card, res));
+
+    //loop for making 0 card:
+    res = pair(make_card(col, 0), res);
+
+    // let colz: List<Color> = list("red", "blue", "yellow", "green");
+
+    // while(!is_null(colz)) {
+    //     res = pair(make_card(head(colz), 0), res);
+    //     colz = tail(colz);
+    // }
+
+    // while(!is_null(res)){
+    //     console.log(head(res));
+    //     res = tail(res);
+    // }
+  
+
     
-    //return res;
+    return res;
 }
 
-make_color("green");
+//make_color("blue");
 
+
+function make_wild_card(): List<Card> {
+    const col: Color = "wild";
+    const take_4: Value = "+4";
+    const pick_col: Value = "new color";
+
+    const made_4 = make_card(col, take_4);
+    const made_pick_c = make_card(col, pick_col);
+
+    const res_l = list(made_4, made_4, made_4, made_4, 
+                       made_pick_c, made_pick_c, made_pick_c, made_pick_c);
+    return res_l;
+    
+}
+
+function make_all_cards(): Queue<Card> {
+    const deck: Queue<Card> = empty_q();
+
+    
+}
