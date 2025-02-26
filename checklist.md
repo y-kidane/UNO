@@ -18,3 +18,10 @@ this is a file with backlog and things to do on the project:
 - shuffle func in JS: 
 - write report components bottom up
 - 
+
+checklist after wednesday 26: 
+
+- fix game logic
+- start report
+- test all functions and separate into libs
+- fix function specifications for every function.  

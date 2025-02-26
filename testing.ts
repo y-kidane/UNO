@@ -1,7 +1,9 @@
 import { is_null, head, list, tail, List, pair, append } from "./lib/list";
 import { Card, Color, Value, Card_info, Hand } from "./types";
-import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
-
+import { Queue, empty as empty_q, is_empty as is_empty_q, 
+    enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
+import { pop, top, Stack, NonEmptyStack, empty as empty_s, 
+    is_empty as is_empty_s, push,  } from "./lib/stack";
 
 //example: make_card(red, 7) ===>>>> {red7: {color: red, value: 7}};
 export function make_card(col: Color, val: Value): Card {
@@ -131,23 +133,55 @@ function dist_cards(q: Queue<Card>, hand: Hand) {
     }
 }
 
-// const phand: Hand = {};
-// const test_deck:Queue<Card> = make_deck(); 
+const phand: Hand = {};
+const test_deck:Queue<Card> = make_deck(); 
 // dist_cards(test_deck, phand);
 
 // console.log(phand["red+2"]);
 // console.log("head in q is now index: ", test_deck[0]);
 // console.log("cards left after distribution: ", test_deck[2]);
 
-const handz: Hand = {
-    blue4: [ { color: 'blue', value: 4 }, null ],
-    red6: [ { color: 'red', value: 6 }, null ],
-    yellow1: [ { color: 'yellow', value: 1 }, null ],
-    yellow2: [ { color: 'yellow', value: 2 }, null ],
-    yellow8: [ { color: 'yellow', value: 8 }, null ],
-    yellow5: [ { color: 'yellow', value: 5 }, null ],
-    'red+2': [ { color: 'red', value: '+2' }, null ]
-};
+// const handz: Hand = {
+//     blue4: [ { color: 'blue', value: 4 }, null ],
+//     red6: [ { color: 'red', value: 6 }, null ],
+//     yellow1: [ { color: 'yellow', value: 1 }, null ],
+//     yellow2: [ { color: 'yellow', value: 2 }, null ],
+//     yellow8: [ { color: 'yellow', value: 8 }, null ],
+//     yellow5: [ { color: 'yellow', value: 5 }, null ],
+//     'red+2': [ { color: 'red', value: '+2' }, null ]
+// };
 
-add_card_to_hand(make_card("yellow", 1), handz);
-console.log(handz["yellow1"]);
+// add_card_to_hand(make_card("yellow", 1), handz);
+// console.log(handz["yellow1"]);
+
+//we need to return new game pile after every application
+function add_card_to_gp(c: Card, game_pile: Stack<Card>) {
+    const after_adding: NonEmptyStack<Card> = push(c, game_pile);
+    return after_adding;
+}
+
+function current_card(gp: NonEmptyStack<Card>): Card {
+    return top(gp);
+}
+
+function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): void {
+    const how_much_draw = val.CI.value;
+
+    if(how_much_draw === "+2") {
+        for(let i = 0; i < 2; i++) {
+            add_card_to_hand(q_head(deck), hand);
+            dequeue(deck);
+        }
+    }
+    else if(how_much_draw === "+4") {
+        for(let i = 0; i < 4; i++) {
+            add_card_to_hand(q_head(deck), hand);
+            dequeue(deck);
+        }
+    } else {}
+}
+
+
+draw_plus(test_deck, phand, make_card("green", "+4"));
+
+console.log(phand);
