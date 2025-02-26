@@ -4,14 +4,14 @@ import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head
 
 
 //example: make_card(red, 7) ===>>>> {red7: {color: red, value: 7}};
-function make_card(col: Color, val: Value): Card {
+export function make_card(col: Color, val: Value): Card {
     return {
         tag: `${col}${val}`,
         CI: {color: col, value: val}
     };
 }
 
-function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
+export function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
 //easy to enque many times
     for(let j = 0; j < n; j++) {
         enqueue(e, q);
@@ -20,7 +20,7 @@ function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
     return q;
 }
 //makes all cards from one color
-function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
+export function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
     const p2 = "+2";
     const skip = "skip";
     const rev = "reverse";
@@ -38,7 +38,7 @@ function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
     return q;
 }
 
-function make_wild_card(q: Queue<Card>): Queue<Card> {
+export function make_wild_card(q: Queue<Card>): Queue<Card> {
     const col: Color = "wild";
     const take_4: Value = "+4";
     const pick_col: Value = "new color";
@@ -59,7 +59,7 @@ function swap<T>(A: Array<T>, i: number, j: number): void {
     A[j] = temp;
 }
 //fisher yates algo
-function shuffle(q: Queue<Card>): Queue<Card>  {
+export function shuffle(q: Queue<Card>): Queue<Card>  {
     const q_arr = q[2];
     const len = q_arr.length;
     for(let i = len - 1; i >= 0; i--) { 
@@ -72,7 +72,7 @@ function shuffle(q: Queue<Card>): Queue<Card>  {
 //function delete card from hand:
 //OBS we have dynamic keys so for accessing values in a record we need
 // to use record[tag] instead of record.tag
-function delete_card_from_hand(c: Card, hand: Hand): boolean {
+export function delete_card_from_hand(c: Card, hand: Hand): boolean {
     const t = c.tag;
     if(!is_null(hand[t])) {
         hand[t] = tail(hand[t]);
@@ -85,7 +85,7 @@ function delete_card_from_hand(c: Card, hand: Hand): boolean {
         return false;
     }
 }
-function add_card_to_hand(c: Card, hand: Hand): void {
+export function add_card_to_hand(c: Card, hand: Hand): void {
     const tag = c.tag;
     if(hand[tag] === undefined) {
         hand[tag] = list(c.CI);
@@ -93,6 +93,7 @@ function add_card_to_hand(c: Card, hand: Hand): void {
         hand[tag] = pair(c.CI, hand[tag]);
     }
 }
+
 const hnd: Hand = {};
 add_card_to_hand(make_card("red", 4), hnd);
 add_card_to_hand(make_card("red", 4), hnd);
