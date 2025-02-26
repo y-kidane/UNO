@@ -125,9 +125,9 @@ function add_card_to_hand(c: Card, hand: Hand) {
 }
 
 
-const p_hand: Queue<Card> = empty_q<Card>();
+const test_deck: Queue<Card> = empty_q<Card>();
 
-// make_color("red", p_hand);
+make_color("red", test_deck);
 // make_color("yellow", p_hand);
 // make_color("blue", p_hand);
 // make_color("green", p_hand);
@@ -142,8 +142,43 @@ const p_hand: Queue<Card> = empty_q<Card>();
 
 //export type Card = {[tag: string]: Card_info};
 
-const foo = make_card("blue", 5);
+//const foo = make_card("blue", 5);
 
-console.log(foo.CI);
+//console.log(foo.CI);
     
 // }
+
+//fisher yates shuffle:
+
+
+
+function random_int(max: number): number {
+    //returns number 0-max in a random fashion
+    return Math.floor(Math.random() * max);
+}
+
+function swap<T>(A: Array<T>, i: number, j: number): void {
+    const temp = A[i];
+    A[i] = A[j];
+    A[j] = temp;
+}
+
+
+//takes in Queue and returns queue, modifying the array in the Q:
+//fisher yates algo
+function shuffle(q: Queue<Card>): Queue<Card>  {
+    
+    const q_arr = q[2];
+    const len = q_arr.length;
+    
+    for(let i = len - 1; i >= 0; i--) {
+        
+        let j = random_int(i);
+        swap(q_arr, i, j);
+    }
+    
+    q[2] = q_arr;//modded Q array.
+    return q;
+}
+//shuffle works
+console.log(shuffle(test_deck)[2]);
