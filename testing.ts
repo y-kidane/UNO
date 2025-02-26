@@ -47,7 +47,7 @@ import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head
 // function make_tag(col: Color, val: Value): string {
 //     return `${col}${val}`;
 // }
-
+red7
 //example: make_card(red, 7) ===>>>> {red7: {color: red, value: 7}};
 function make_card(col: Color, val: Value): Card {
     return {

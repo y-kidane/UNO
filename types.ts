@@ -29,7 +29,7 @@ export type Card = {tag: string, CI: Card_info};
 //    blue6: { color: 'blue', value: 6 }}
 
 export type Hand = Record<string, List<Card_info>>;
-
+//arr shuffle func already exists
 //removing card: by its tag/key
 
 //ex delete player_hand[key];

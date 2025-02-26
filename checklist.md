@@ -14,3 +14,7 @@ this is a file with backlog and things to do on the project:
 - after arr deck, fix shuffle, array index for queue stays the same, then fix distribute to pvc.
 - currently using list lib, stack lib, queue lib. 
 
+
+- shuffle func in JS: 
+- write report components bottom up
+- 
