@@ -63,7 +63,7 @@ export function shuffle(q: Queue<Card>): Queue<Card>  {
     const q_arr = q[2];
     const len = q_arr.length;
     for(let i = len - 1; i >= 0; i--) { 
-        let j = random_int(i);
+        let j = random_int(i + 1);
         swap(q_arr, i, j);
     }
     q[2] = q_arr;//modded Q array.
@@ -94,10 +94,60 @@ export function add_card_to_hand(c: Card, hand: Hand): void {
     }
 }
 
-const hnd: Hand = {};
-add_card_to_hand(make_card("red", 4), hnd);
-add_card_to_hand(make_card("red", 4), hnd);
-console.log(hnd.red4);
-delete_card_from_hand(make_card("red", 4), hnd);
-console.log(hnd.red4);
+// const hnd: Hand = {};
+// add_card_to_hand(make_card("red", 4), hnd);
+// add_card_to_hand(make_card("red", 4), hnd);
+// console.log(hnd.red4);
+// delete_card_from_hand(make_card("red", 4), hnd);
+// console.log(hnd.red4);
 
+//fix distribute card function, input(deck, player_hand, computer_hand)
+
+function make_deck(): Queue<Card> {
+    const deck_q: Queue<Card> = empty_q();
+    make_color("red", deck_q);
+    make_color("yellow", deck_q);
+    make_color("green", deck_q);
+    make_color("blue", deck_q);
+    make_wild_card(deck_q)
+    shuffle(deck_q);
+
+    return deck_q;
+}
+//
+// const dex = make_deck();
+// const dex_arr = dex[2];
+// for(let i = 0; i < dex_arr.length; i++) {
+//     console.log(dex_arr[i]);
+// }
+
+//each player gets 7 cards at beginning:
+
+function dist_cards(q: Queue<Card>, hand: Hand) {
+    for(let i = 0; i < 7; i++) {
+        const card_to_add = q_head(q);
+        add_card_to_hand(card_to_add, hand);
+        dequeue(q);
+    }
+}
+
+// const phand: Hand = {};
+// const test_deck:Queue<Card> = make_deck(); 
+// dist_cards(test_deck, phand);
+
+// console.log(phand["red+2"]);
+// console.log("head in q is now index: ", test_deck[0]);
+// console.log("cards left after distribution: ", test_deck[2]);
+
+const handz: Hand = {
+    blue4: [ { color: 'blue', value: 4 }, null ],
+    red6: [ { color: 'red', value: 6 }, null ],
+    yellow1: [ { color: 'yellow', value: 1 }, null ],
+    yellow2: [ { color: 'yellow', value: 2 }, null ],
+    yellow8: [ { color: 'yellow', value: 8 }, null ],
+    yellow5: [ { color: 'yellow', value: 5 }, null ],
+    'red+2': [ { color: 'red', value: '+2' }, null ]
+};
+
+add_card_to_hand(make_card("yellow", 1), handz);
+console.log(handz["yellow1"]);
