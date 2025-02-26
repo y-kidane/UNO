@@ -73,7 +73,7 @@ function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
 
 function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
     const p2 = "+2";
-    const skip = "skip"; 
+    const skip = "skip";
     const rev = "reverse";
     //let res = null;
 
