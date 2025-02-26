@@ -109,8 +109,8 @@ function make_wild_card(): List<Card> {
     
 }
 
-function make_all_cards(): Queue<Card> {
-    const deck: Queue<Card> = empty_q();
+// function make_all_cards(): Queue<Card> {
+//     const deck: Queue<Card> = empty_q();
 
     
-}
+// }
