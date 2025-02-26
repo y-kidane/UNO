@@ -1,4 +1,4 @@
-import { is_null, head, list, tail, List, pair } from "./lib/list";
+import { is_null, head, list, tail, List, pair, append } from "./lib/list";
 import { Card, Color, Value, Card_info, Hand } from "./types";
 import { Queue, empty as empty_q, is_empty as is_empty_q, enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
 
@@ -120,14 +120,10 @@ function make_wild_card(q: Queue<Card>): Queue<Card> {
 
 // }
 
-function add_card_to_hand(c: Card, hand: Hand) {
 
-}
+//const test_deck: Queue<Card> = empty_q<Card>();
 
-
-const test_deck: Queue<Card> = empty_q<Card>();
-
-make_color("red", test_deck);
+//make_color("red", test_deck);
 // make_color("yellow", p_hand);
 // make_color("blue", p_hand);
 // make_color("green", p_hand);
@@ -181,4 +177,42 @@ function shuffle(q: Queue<Card>): Queue<Card>  {
     return q;
 }
 //shuffle works
-console.log(shuffle(test_deck)[2]);
+//console.log(shuffle(test_deck)[2]);
+
+
+//function delete card from hand:
+//
+
+function delete_card_from_hand(c: Card, hand: Hand): boolean {
+    const t = c.tag;
+
+    if(!is_null(hand.t)) {
+        hand[t] = tail(hand.t);
+
+        if(is_null(tail(hand.t))) {
+            delete hand[t];
+        } else {}
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function add_card_to_hand(c: Card, hand: Hand): void {
+    const tag = c.tag;
+
+    if(hand.tag === undefined) {
+        hand[tag] = list(c.CI);
+    } else {
+        hand[tag] = append(list(c.CI), hand[tag]);
+    }
+
+}
+
+const hnd: Hand = {};
+
+add_card_to_hand(make_card("red", 4), hnd);
+add_card_to_hand(make_card("red", 4), hnd);
+
+console.log(hnd);
