@@ -1,6 +1,6 @@
 import { Pair, pair, list, List, head, tail, is_null, length } from "./lib/list";
 
-
+//here we have defined the types for the whole game. 
 
 /**
  * represent the color of a card.

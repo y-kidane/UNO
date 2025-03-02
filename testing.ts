@@ -262,6 +262,10 @@ console.log(phand);
  * find_valid_card(), compared to current state, else pick wild - svårast
  * loop_pick_more_cards()
  * 
+ * OBS split into modules:
+ * 
+ * ex: types, cards, deck management, gamelogic, AI logic
+ * so to play the game you only need to execute game.ts
  * 
  * 
  * 
