@@ -74,6 +74,7 @@ export function shuffle(q: Queue<Card>): Queue<Card>  {
 //function delete card from hand:
 //OBS we have dynamic keys so for accessing values in a record we need
 // to use record[tag] instead of record.tag
+//if key is not in record => undefined
 export function delete_card_from_hand(c: Card, hand: Hand): boolean {
     const t = c.tag;
     if(!is_null(hand[t])) {
@@ -185,3 +186,83 @@ function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): void {
 draw_plus(test_deck, phand, make_card("green", "+4"));
 
 console.log(phand);
+
+
+//start game logic: 
+
+/**
+ * 
+ * 
+ * {
+ * welcome screen displayed = helloUNO()
+ * 
+ * distribute cards to player  = create player and computer hand(), empty record hands
+ * distribute cards to computer = distribute_card to both(hand, hand, deck);
+ * 
+ * display player cards, ex: (red4, blue2, plus4) = display players cards(hand), from record from to string. 
+ * 
+ * 
+ * player puts card on game pile. ask what card to place(hand, tag: card that the player choose)
+ * check if valid move, current color is red;  red4, blue4, yellow4 => check red4, check b4, check y4
+ * is_valid_move(hand, picked card, current card)
+ * 
+ * make current value = color, ex red, 
+ * add card to game pile(card, stack: game pile)
+ * let current state: x = {color, value}:
+ * col = x.color
+ * val = x.value
+ * 
+ * turn change, comuters turn now. 
+ * change turn
+ * take a card(hand, deck, current state); 
+ * 
+ * have computer pick card thet follows current value, 
+ * 
+ * function AI(hand, deck, current state): 
+ * for each in hand check if match current state
+ * should be able to find card in hand that matches current state
+ * place that card
+ * 
+ * turn change .........
+ * 
+ * if(len player hand is 1) { dipslay palyer ahs uno}
+ * 
+ * until someone has UNO, 1 card left. 
+ * 
+ * continue play until UNO person plays last card. 
+ * 
+ * is winning(player hand, computer hand) check if len of any is 0: boolean
+ * if true end game, someone has won. 
+ * 
+ * 
+ * functions to build: 
+ * }
+ * 
+ * 
+ */
+
+/**
+ * functions: 
+ * 
+ * welcome_screen()
+ * make_hands()
+ * distribute_to_players_hands()
+ * 
+ * display_players_hand() - lite svår 
+ * ask_what_card_to_place(), can be many cards, lite svår, behöver hantera flera kort
+ * pick_up_more_cards(), när man inte har färgen eller value
+ * is_valid_mode() - lite jobbig
+ * add_to_game_pile(lista(cards to add), gamepile) lite svår
+ * make_current_state()
+ * change_turn, after placing card - lite svår
+ * check_if_UNO()
+ * is_winning(), check if len 0 on any hand, if true end game. 
+ * 
+ * AI: 
+ * find_valid_card(), compared to current state, else pick wild - svårast
+ * loop_pick_more_cards()
+ * 
+ * 
+ * 
+ * 
+ */
