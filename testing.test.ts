@@ -7,7 +7,7 @@ import { empty as empty_s } from "./lib/stack";
 
 //testing deck.ts
 test('testing if make_card function works', () => {
-    expect(make_card("red", 4)).toStrictEqual({tag: "red4", CI: {color: "red", value: 4}});
+    expect(make_card("red", 4)).toStrictEqual({tag: "red 4", CI: {color: "red", value: 4}});
 });
 
 test('random card in a color group has same color as group', () => {
@@ -56,8 +56,8 @@ test('adds card to hand', () => {
     const test_card2 = make_card("red", "+2");
     add_card_to_hand(test_card1, test_hand);
     add_card_to_hand(test_card2, test_hand);
-    const result_hand: Hand = {"green8": [ { color: 'green', value: 8 }, null ],
-                               'red+2': [ { color: 'red', value: '+2' }, null ]
+    const result_hand: Hand = {"green 8": [ { color: 'green', value: 8 }, null ],
+                               'red +2': [ { color: 'red', value: '+2' }, null ]
                                } 
     expect(test_hand).toStrictEqual(result_hand);
 });
@@ -68,7 +68,7 @@ test('adding dupelicate cards creates a list of length 2', () => {
     const tagg = test_card1.tag;
     add_card_to_hand(test_card1, test_hand);
     add_card_to_hand(test_card1, test_hand);
-    const result_hand: Hand = { green8: list({ color: 'green', value: 8 }, { color: 'green', value: 8 })};
+    const result_hand: Hand = { "green 8": list({ color: 'green', value: 8 }, { color: 'green', value: 8 })};
     const result_list = result_hand[tagg];
     expect(test_hand[tagg]).toStrictEqual(result_list);
     expect(length(test_hand[tagg])).toBe(2);

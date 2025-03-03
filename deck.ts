@@ -15,7 +15,7 @@ import { Queue, empty as empty_q, enqueue } from "./lib/queue_array";
  */
 export function make_card(col: Color, val: Value): Card {
     return {
-        tag: `${col}${val}`,
+        tag: `${col} ${val}`,
         CI: {color: col, value: val}
     };
 }
@@ -113,4 +113,4 @@ export function make_deck(): Deck {
     return deck_q;
 }
 
-//console.log(make_card("red", 6));
+console.log(make_card("red", 9));
