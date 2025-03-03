@@ -78,6 +78,7 @@ export type Deck = Queue<Card>;
  * A game pile is the homogeneous stack of played UNO cards.
  * 
  * - last played card is at the top of the stack.
+ * - cards are added in last in first out order
  * - determines the game state, ie which card color or value can be played. 
  */
 
