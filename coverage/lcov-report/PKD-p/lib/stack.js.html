@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/18</span>
+                <span class='fraction'>12/18</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/18</span>
+                <span class='fraction'>12/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -152,7 +152,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -161,7 +161,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,7 +171,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,7 +180,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -225,8 +225,8 @@ var list_1 = require("./list");
  * @template T type of all stack elements
  * @returns Returns an empty stack.
  */
-function <span class="fstat-no" title="function not covered" >empty(</span>) {
-<span class="cstat-no" title="statement not covered" >    return null;</span>
+function empty() {
+    return null;
 }
 /**
  * Checks whether a stack is empty.
@@ -234,8 +234,8 @@ function <span class="fstat-no" title="function not covered" >empty(</span>) {
  * @param stck stack to check for emptiness
  * @returns Returns true, if the stack stck has to elements, false otherwise.
  */
-function <span class="fstat-no" title="function not covered" >is_empty(</span>stck) {
-<span class="cstat-no" title="statement not covered" >    return (0, list_1.is_null)(stck);</span>
+function is_empty(stck) {
+    return (0, list_1.is_null)(stck);
 }
 /**
  * Pushes an element onto a stack.
@@ -244,8 +244,8 @@ function <span class="fstat-no" title="function not covered" >is_empty(</span>st
  * @param stck stack to add the element to
  * @returns Returns a new stack with element e on top of the elements of stck.
  */
-function <span class="fstat-no" title="function not covered" >push(</span>e, stck) {
-<span class="cstat-no" title="statement not covered" >    return (0, list_1.pair)(e, stck);</span>
+function push(e, stck) {
+    return (0, list_1.pair)(e, stck);
 }
 /**
  * Retrieves the top element of a stack.
@@ -253,8 +253,8 @@ function <span class="fstat-no" title="function not covered" >push(</span>e, stc
  * @param stck stack to get the top element of
  * @returns Returns the element of the stack stck that was last pushed.
  */
-function <span class="fstat-no" title="function not covered" >top(</span>stck) {
-<span class="cstat-no" title="statement not covered" >    return (0, list_1.head)(stck);</span>
+function top(stck) {
+    return (0, list_1.head)(stck);
 }
 /**
  * Removes the top element of a stack.
@@ -292,7 +292,7 @@ function <span class="fstat-no" title="function not covered" >display_stack(</sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-03T17:32:17.907Z
+                at 2025-03-03T18:52:09.026Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -3,6 +3,7 @@ import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle,
 import { delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, current_card, draw_plus, length_of_hand } from "./game";
 import { empty as empty_q, head as q_head } from "./lib/queue_array";
 import { list, length, head } from "./lib/list";
+import { empty as empty_s } from "./lib/stack";
 
 //testing deck.ts
 test('testing if make_card function works', () => {
@@ -105,6 +106,41 @@ test('test distribution of cards', () => {
     expect(cards_in_deck_after_dist).toBeLessThan(initial_deck_len);
 });
 //create test for game pile
-test('', () => {
+test('the last added card to the game pile is the current card', () => {
+    let game_pile: GamePile = empty_s<Card>();
+    const test_card1 = make_card("red", 5);
+    const last_added = make_card("green", 1);
 
+    game_pile = add_card_to_gp(last_added, add_card_to_gp(test_card1, game_pile));
+
+    expect(current_card(game_pile)).toStrictEqual(last_added);
+
+});
+
+test('if game pile empty, return false', () => {
+    let game_pile: GamePile = empty_s<Card>();
+    expect(current_card(game_pile)).toBe(false);
+});
+
+test('draw +2 card for a hand returns the hand plus the added cards', () => {
+    const test_hand: Hand = {};
+    add_card_to_hand(make_card("blue", 4), test_hand);
+    add_card_to_hand(make_card("green", 9), test_hand);
+    const len_before_2 = length_of_hand(test_hand);
+    draw_plus(make_deck(), test_hand, make_card("green", "+2"));
+
+    expect(length_of_hand(test_hand)).toBe(len_before_2 + 2);
 })
+
+test('draw +4 card for a hand returns the hand plus the added cards', () => {
+    const test_hand: Hand = {};
+    add_card_to_hand(make_card("red", 4), test_hand);
+    add_card_to_hand(make_card("yellow", 9), test_hand);
+    const len_before_2 = length_of_hand(test_hand);
+    draw_plus(make_deck(), test_hand, make_card("blue", "+4"));
+
+    expect(length_of_hand(test_hand)).toBe(len_before_2 + 4);
+})
+
+
+
