@@ -8,7 +8,7 @@ import { Queue, empty as empty_q, enqueue } from "./lib/queue_array";
  * make_card("red", 7);
  * @param col the color of a UNO card
  * @param val the value of a UNO card
- * @complexity Theta(1), regardless of color or value
+ * @complexity Theta(1) time complexity, regardless of color or value
  * @returns a record with following properties:
  * - tag: a string which is a concatenation of the color and value of a card.
  * - CI: a record containing the color and value of a UNO card. 
@@ -32,7 +32,7 @@ export function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
  * creates all types of cards of one color and adds it to the queue
  * @param col the color to use to create the cards
  * @param q the queue to add all the cards to
- * @complexity Theta(1), number of steps always the same
+ * @complexity Theta(1) time complexity, number of steps always the same
  * @returns a queue of cards where all cards have the color col.
  */
 export function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
@@ -55,7 +55,7 @@ export function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
 /**
  * creates all the wild cards in UNO and adds them to the queue
  * @param q the queue to add the cards to
- * @complexity Theta(1), number of steps always the same
+ * @complexity Theta(1) time complexity, number of steps always the same
  * @returns a queue where all wild cards have been added to the queue. 
  */
 export function make_wild_card(q: Queue<Card>): Queue<Card> {
@@ -83,7 +83,7 @@ function swap<T>(A: Array<T>, i: number, j: number): void {
  * shuffles a queue in place, using Fisher Yates algorithm which 
  * ensures that all elements have an equal chance to appear in any position.
  * @param q the queue to shuffle
- * @complexity Theta(n), where n is the length of the queue.
+ * @complexity Theta(n) time complexity, where n is the length of the queue.
  * @returns a queue with same elements but in randomized order. 
  */
 export function shuffle(q: Queue<Card>): Queue<Card>  {
@@ -98,7 +98,7 @@ export function shuffle(q: Queue<Card>): Queue<Card>  {
 }
 /**
  * creates a deck with all 108 UNO cards.
- * @complexity Theta(1), always same number of steps
+ * @complexity Theta(1) time complexity, always same number of steps
  * @returns a queue with all 108 cards where the cards 
  * are shuffled and in randomized order.
  */

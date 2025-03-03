@@ -136,7 +136,7 @@
  * display_players_hand() - lite svår 
  * ask_what_card_to_place(), can be many cards, lite svår, behöver hantera flera kort
  * pick_up_more_cards(), när man inte har färgen eller value
- * is_valid_mode() - lite jobbig
+ * is_valid_move() - lite jobbig
  * add_to_game_pile(lista(cards to add), gamepile) lite svår
  * make_current_state()
  * change_turn, after placing card - lite svår

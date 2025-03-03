@@ -18,7 +18,7 @@ import { make_deck, make_card } from "./deck";
  * delete_card_from_hand({ tag: 'blue9', CI: { color: 'blue', value: 9 }}, {})
  * @param card the card to remove from the hand
  * @param hand the record which represents the hand
- * @complexity Theta(1), all operations take constant time in the function
+ * @complexity Theta(1) time complexity, all operations take constant time in the function
  * @returns the hand, containing all cards except for the removed card.
  */
 export function delete_card_from_hand(card: Card, hand: Hand): boolean {
@@ -35,85 +35,99 @@ export function delete_card_from_hand(card: Card, hand: Hand): boolean {
 }
 /**
  * adds a card to a hand
- * @param c the card to add to the hand
+ * @param card the card to add to the hand
  * @param hand the hand to add the card to
- * @complexity Theta(1), all operations take constant time in the function
+ * @complexity Theta(1) time complexity, all operations take constant time in the function
  * 
  */
-export function add_card_to_hand(c: Card, hand: Hand): void {
-    const card_tag = c.tag;
+export function add_card_to_hand(card: Card, hand: Hand): void {
+    const card_tag = card.tag;
     if(hand[card_tag] === undefined) {
-        hand[card_tag] = list(c.CI);
+        hand[card_tag] = list(card.CI);
     } else {
-        hand[card_tag] = pair(c.CI, hand[card_tag]);
+        hand[card_tag] = pair(card.CI, hand[card_tag]);
     }
 }
 /**
- * distribute n cards from a deck to  to a hand
+ * distribute n cards from a deck to a hand
  * @example
  * //results in false
  * dist_cards(empty_q<Card>(), {}, 4);
- * @param q the deck to draw the cards from
+ * @param que the deck to draw the cards from
  * @param hand the hand to receive the cards
- * @param n how many cards to draq and add to hand
- * @complexity Theta(n), where n is how many cards to draw.
+ * @param n how many cards to draw and add to hand
+ * @complexity Theta(n) time complexity, where n is how many cards to draw.
  * @returns true if cards are distributed, false otherwise. 
  */
-export function dist_cards(q: Deck, hand: Hand, n: number): boolean {
-    const deck_l = q[2].length;
-    if(n > deck_l) {
-        return false;
-    } else {
+
+//if [head, next empty, arr], if n >=next empty 
+export function dist_cards(que: Deck, hand: Hand, n: number): boolean {
+    const first_elem_in_q = que[0];
+    const last_elem_in_q = que[1];
+    const cards_in_deck = last_elem_in_q - first_elem_in_q;
+    if(n <= cards_in_deck) {
         for(let i = 0; i < n; i++) {
-            const card_to_add = q_head(q);
+            const card_to_add = q_head(que);
             add_card_to_hand(card_to_add, hand);
-            dequeue(q);
+            dequeue(que);
         }
         return true;
+    } else {
+        return false;
     }
 }
 
-//we need to return new game pile after every application
 /**
  * adds a card to the game pile 
- * @param c the card to add to pile
+ * @example
+ * //results in list({ tag: 'red3', CI: { color: 'red', value: 3 } })
+ * add_card_to_gp(make_card("red", 3), empty_s<Card>());
+ * @param card the card to add to pile
  * @param game_pile the stack of the cards in the pile
+ * @complexity Theta(1) time complexity
  * @returns a new stack where the added card is at the top of the stack and pile. 
  */
-export function add_card_to_gp(c: Card, game_pile: GamePile) {
-    const after_adding: NonEmptyStack<Card> = push(c, game_pile);
+export function add_card_to_gp(card: Card, game_pile: GamePile): NonEmptyStack<Card> {
+    const after_adding: NonEmptyStack<Card> = push(card, game_pile);
     return after_adding;
 }
-
-export function current_card(gp: NonEmptyStack<Card>): Card {
-    return top(gp);
+/**
+ * returns the last played card in the game pile
+ * @example
+ * //results in { tag: 'red3', CI: { color: 'red', value: 3 } }
+ * current_card(add_card_to_gp(make_card("red", 3), empty_s<Card>()));
+ * @param gp the game pile which is a stack
+ * @complexity Theta(1) time complexity
+ * @returns the card on top of the stack, last played card
+ */
+export function current_card(gp: GamePile): Card | boolean {
+    if (!is_empty_s(gp)) {
+        return top(gp);
+    } else {
+        return false;
+    }
 }
-
-export function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): void {
-    const how_much_draw = val.CI.value;
-
+/**
+ * draws cards from deck and adds them to a hand based on the value of a card
+ * @example
+ * //results in true
+ * draw_plus(make_deck(), {}, {tag: 'red+2', CI: { color: 'red', value: '+2' }})
+ * 
+ * //results in false
+ * draw_plus(make_deck(), {}, {tag: 'blue4', CI: { color: 'blue', value: '4' }})
+ * @param deck the deck to draw cards from
+ * @param hand the hand to receive the drawn cards
+ * @param val the card that decides how many cards to draw
+ * @returns true if cards were drawn and added to hand, false otherwise.
+ */
+export function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): boolean {
+    const how_much_draw: Value = val.CI.value;
     if(how_much_draw === "+2") {
-        for(let i = 0; i < 2; i++) {
-            add_card_to_hand(q_head(deck), hand);
-            dequeue(deck);
-        }
+       return dist_cards(deck, hand, 2);  
     }
     else if(how_much_draw === "+4") {
-        for(let i = 0; i < 4; i++) {
-            add_card_to_hand(q_head(deck), hand);
-            dequeue(deck);
-        }
-    } else {}
+        return dist_cards(deck, hand, 4); 
+    } else {
+        return false;
+    }
 }
-
-
-// draw_plus(test_deck, phand, make_card("green", "+4"));
-
-// console.log(phand);
-
-//
-// const dex = make_deck();
-// const dex_arr = dex[2];
-// for(let i = 0; i < dex_arr.length; i++) {
-//     console.log(dex_arr[i]);
-// }

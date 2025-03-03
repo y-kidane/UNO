@@ -1,6 +1,6 @@
 import { Pair, pair, list, List, head, tail, is_null, length } from "./lib/list";
 import { Queue } from "./lib/queue_array";
-import { Stack } from "./lib/stack";
+import { NonEmptyStack, Stack } from "./lib/stack";
 
 /**
  * the color of a UNO card is represented as a literal type.
