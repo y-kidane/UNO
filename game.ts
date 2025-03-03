@@ -1,4 +1,4 @@
-import { is_null, head, list, tail, List, pair, append } from "./lib/list";
+import { is_null, head, list, tail, List, pair, append, for_each, length as list_length } from "./lib/list";
 import { Card, Color, Value, Card_info, Hand, Deck, GamePile } from "./types";
 import { Queue, empty as empty_q, is_empty as is_empty_q, 
     enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
@@ -19,7 +19,7 @@ import { make_deck, make_card } from "./deck";
  * @param card the card to remove from the hand
  * @param hand the record which represents the hand
  * @complexity Theta(1) time complexity, all operations take constant time in the function
- * @returns the hand, containing all cards except for the removed card.
+ * @returns true if card was deleted from hand, false otherwise
  */
 export function delete_card_from_hand(card: Card, hand: Hand): boolean {
     const card_tag = card.tag;
@@ -131,3 +131,21 @@ export function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): boolean {
         return false;
     }
 }
+/**
+ * returns how many cards there are in one hand
+ * @example
+ * //results in 2
+ * length_of_hand({ red4: list({ color: 'red', value: 4 }, { color: 'red', value: 4 })})
+ * @param hand is the hand to count the cards of
+ * @returns a number, how many cards there is in the hand
+ */
+export function length_of_hand(hand: Hand): number {
+    const keys = Object.keys(hand);
+    const key_len = keys.length;
+    let count = 0;
+    for(let i = 0; i < key_len; i++) {
+        count = count + list_length(hand[keys[i]])
+    }
+    return count;
+}
+

@@ -69,7 +69,7 @@ export function make_wild_card(q: Queue<Card>): Queue<Card> {
     return q;
 }
 //helper function: random number generator, between 0 to max.
-function random_int(max: number): number {
+export function random_num(max: number): number {
     return Math.floor(Math.random() * max);
 }
 //helper function: swaps place on 2 indexes in an array. 
@@ -90,7 +90,7 @@ export function shuffle(q: Queue<Card>): Queue<Card>  {
     const q_arr = q[2];
     const len = q_arr.length;
     for(let i = len - 1; i >= 0; i--) { 
-        let j = random_int(i + 1);
+        let j = random_num(i + 1);
         swap(q_arr, i, j);
     }
     q[2] = q_arr;//modify Q array.
@@ -112,3 +112,5 @@ export function make_deck(): Deck {
     shuffle(deck_q);
     return deck_q;
 }
+
+//console.log(make_card("red", 6));

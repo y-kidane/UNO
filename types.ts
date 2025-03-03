@@ -14,9 +14,9 @@ export type Color = "red" | "yellow" | "blue" | "green" | "wild";
  * The possible value each UNO card can have.
  * 
  * - number: are the numbers (0-9), which represent standard UNO card values.
- * - "+4": wild draw 4.
+ * - "+4": wild draw 4, cannot be combined with any color but "wild"
  * - "+2": draw 2.
- * - "new color": wild color change.
+ * - "new color": wild color change, cannot be combined with any color but "wild"
  * - "skip": skip turn.
  * - "reverse": reverse turn order.
 */
