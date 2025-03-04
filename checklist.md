@@ -25,3 +25,4 @@ checklist after wednesday 26:
 - start report
 - test all functions and separate into libs
 - fix function specifications for every function.  
+- added lodahs library for random num generator with intervall.

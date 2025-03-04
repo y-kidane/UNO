@@ -4,12 +4,12 @@ import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle,
 
 import { 
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, 
-    current_card, draw_plus, length_of_hand, refill_deck_from_gp
+    current_card, draw_plus, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno
 } from "./game";
 
 import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
 
-import { list, length as list_length, head } from "./lib/list";
+import { list, length as list_length, head, is_null } from "./lib/list";
 
 import { empty as empty_s } from "./lib/stack";
 
@@ -163,3 +163,21 @@ test('refill deck increases queue length, and game pile length is 1 after refill
     expect(tez[2].length).toBe(len_q);
     
 });
+
+test('the tags in the display card array are valid for hand', () => {
+    const handx: Hand = {};
+    const test_blue = make_card("blue", 7);
+    add_card_to_hand(test_blue, handx);
+    add_card_to_hand(make_card("red", "skip"), handx);
+    add_card_to_hand(make_card("yellow", 5), handx);
+    const display_arr = display_hand(handx);
+    const matches_card_tag = test_blue.tag
+    expect(display_arr[0]).toStrictEqual(matches_card_tag);
+});
+
+test('check for uno with hand with lenght 1 prints uno', () => {
+    const tezz: Hand = {};
+    add_card_to_hand(make_card("green", 8), tezz)
+    expect(check_for_uno(tezz)).toBe(true);
+})
+

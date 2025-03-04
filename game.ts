@@ -5,7 +5,7 @@ import { Queue, empty as empty_q, is_empty as is_empty_q,
 import { pop, top, Stack, NonEmptyStack, empty as empty_s, 
     is_empty as is_empty_s, push,  } from "./lib/stack";
 import { make_deck, make_card, shuffle } from "./deck";
-
+import * as readline from 'readline';
 //here we make the main game logic, this is the file to run to play the game. 
 /**
  * removes a card from a hand
@@ -171,26 +171,41 @@ export function refill_deck_from_gp(game_pile: GamePile, game_deck: Deck): GameP
     }
 }
 
-// const test_dekk: Deck = empty_q<Card>();
-// const gpz: GamePile = add_card_to_gp(make_card("green", 0), add_card_to_gp(make_card("blue", 9), add_card_to_gp(make_card("red", 5), empty_s<Card>()))); 
-
-
-// console.log(refill_deck_from_gp(gpz, test_dekk));
-// console.log(test_dekk[2]);
-// //start game loop:
-
-const tez: Deck = make_deck();
-
-let test_s: GamePile = empty_s<Card>();
-
-for(let i = 0; i < 10; i++){
-    test_s = add_card_to_gp(q_head(tez), test_s);
-    dequeue(tez);
+/**
+ * displays all cards tags from a hand, each tag represent a card in hand
+ * @example
+ * //results in ["blue 7", "yellow 5"]
+ * const hand: Hand = {};
+ * add_card_to_hand(make_card("blue", 7), handx);
+ * add_card_to_hand(make_card("yellow", 5), handx);
+ * display_hand(hand);
+ * @param hand is the hand to display the cards for
+ * @returns an array where each element is tag
+ */
+export function display_hand(hand: Hand): Array<string> {
+    return Object.keys(hand);  
+}
+/**
+ * checks if a player has UNO, which is a hand of length 1.
+ * @param hand the hand to check for UNO
+ * @returns true iff player has UNO, false otherwise
+ */
+export function check_for_uno(hand: Hand): Boolean {
+    return length_of_hand(hand) === 1 
+           ? true 
+           : false;
 }
 
-refill_deck_from_gp(test_s, tez);
+/**
+ * checks if a hand has won, meaning check if length of hand is 0
+ * @param hand is the hand to check if it has won
+ * @returns true iff length of hand is 0, false otherwise.
+ */
+export function is_winning(hand: Hand): boolean {
+    return length_of_hand(hand) === 0 
+           ? true
+           : false; 
+}
 
-console.log('head index: ', tez[0], 'tail index: ', tez[1]);
-console.log('stack length: ',list_length(test_s));
-console.log('queue length should be 108 + 9 = ', tez[2].length)
+//testing prompt and parsing:
 
