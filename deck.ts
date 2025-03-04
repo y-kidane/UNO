@@ -1,10 +1,12 @@
 import { Card, Color, Value, Deck} from "./types";
-import { Queue, empty as empty_q, enqueue } from "./lib/queue_array";
+import { Queue, dequeue, empty as empty_q, enqueue, head as q_head } from "./lib/queue_array";
+import { random as imported_random_gen } from 'lodash';
+
 
 /**
  * Creates a record that represents a Card
  * @example
- * //results in {tag: "red7", CI: {color: red, value: 7}}
+ * //results in {tag: "red 7", CI: {color: red, value: 7}}
  * make_card("red", 7);
  * @param col the color of a UNO card
  * @param val the value of a UNO card
@@ -68,9 +70,16 @@ export function make_wild_card(q: Queue<Card>): Queue<Card> {
     many_enques(4, q, made_pick_c);
     return q;
 }
-//helper function: random number generator, between 0 to max.
-export function random_num(max: number): number {
-    return Math.floor(Math.random() * max);
+/**
+ * generate random number in an interval, imported from lodash library.
+ * @param min minimum allowed number
+ * @param max maximum allowed number
+ * @returns an integer in the range [min, max]
+ */
+export function random_num(min: number, max: number): number {
+    //return Math.floor(Math.random() * (max - min + 1)) + min;
+    return imported_random_gen(min, max, false);
+
 }
 //helper function: swaps place on 2 indexes in an array. 
 function swap<T>(A: Array<T>, i: number, j: number): void {
@@ -88,9 +97,10 @@ function swap<T>(A: Array<T>, i: number, j: number): void {
  */
 export function shuffle(q: Queue<Card>): Queue<Card>  {
     const q_arr = q[2];
-    const len = q_arr.length;
-    for(let i = len - 1; i >= 0; i--) { 
-        let j = random_num(i + 1);
+    const begin = q[0];
+    const end = q[1] - 1;
+    for(let i = end; i >= begin; i--) { 
+        let j = random_num(begin, end);
         swap(q_arr, i, j);
     }
     q[2] = q_arr;//modify Q array.
@@ -112,5 +122,3 @@ export function make_deck(): Deck {
     shuffle(deck_q);
     return deck_q;
 }
-
-console.log(make_card("red", 9));

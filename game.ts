@@ -4,7 +4,7 @@ import { Queue, empty as empty_q, is_empty as is_empty_q,
     enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
 import { pop, top, Stack, NonEmptyStack, empty as empty_s, 
     is_empty as is_empty_s, push,  } from "./lib/stack";
-import { make_deck, make_card } from "./deck";
+import { make_deck, make_card, shuffle } from "./deck";
 
 //here we make the main game logic, this is the file to run to play the game. 
 /**
@@ -148,4 +148,49 @@ export function length_of_hand(hand: Hand): number {
     }
     return count;
 }
+
+/**
+ * move all cards from game pile, except the top card, and inserts into deck.
+ * @param game_pile the stack of cards to move cards from
+ * @param game_deck the deck of cards to add cards to
+ * @returns a new game pile with only the last added card on top.
+ */
+export function refill_deck_from_gp(game_pile: GamePile, game_deck: Deck): GamePile {
+    let result_pile: GamePile = empty_s<Card>();
+    if(is_empty_s(game_pile)) {
+        return result_pile;
+    } else {
+        result_pile = push(top(game_pile), result_pile);
+        let loop_pile = pop(game_pile);
+        while(!is_empty_s(loop_pile)){
+            enqueue(top(loop_pile), game_deck);
+            loop_pile = pop(loop_pile);
+        }
+        shuffle(game_deck);
+        return result_pile;
+    }
+}
+
+// const test_dekk: Deck = empty_q<Card>();
+// const gpz: GamePile = add_card_to_gp(make_card("green", 0), add_card_to_gp(make_card("blue", 9), add_card_to_gp(make_card("red", 5), empty_s<Card>()))); 
+
+
+// console.log(refill_deck_from_gp(gpz, test_dekk));
+// console.log(test_dekk[2]);
+// //start game loop:
+
+const tez: Deck = make_deck();
+
+let test_s: GamePile = empty_s<Card>();
+
+for(let i = 0; i < 10; i++){
+    test_s = add_card_to_gp(q_head(tez), test_s);
+    dequeue(tez);
+}
+
+refill_deck_from_gp(test_s, tez);
+
+console.log('head index: ', tez[0], 'tail index: ', tez[1]);
+console.log('stack length: ',list_length(test_s));
+console.log('queue length should be 108 + 9 = ', tez[2].length)
 

@@ -1,8 +1,16 @@
 import { Card, Card_info, Hand, Color, Value, Deck, GamePile } from "./types";
+
 import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./deck";
-import { delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, current_card, draw_plus, length_of_hand } from "./game";
-import { empty as empty_q, head as q_head } from "./lib/queue_array";
-import { list, length, head } from "./lib/list";
+
+import { 
+    delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, 
+    current_card, draw_plus, length_of_hand, refill_deck_from_gp
+} from "./game";
+
+import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
+
+import { list, length as list_length, head } from "./lib/list";
+
 import { empty as empty_s } from "./lib/stack";
 
 //testing deck.ts
@@ -13,14 +21,14 @@ test('testing if make_card function works', () => {
 test('random card in a color group has same color as group', () => {
     const test_deck: Deck = empty_q<Card>();
     make_color("yellow", test_deck);
-    const rand_index = test_deck[2][random_num(test_deck[1] - 1)];
+    const rand_index = test_deck[2][random_num(test_deck[0], test_deck[1] - 1)];
     expect(rand_index.CI.color).toBe("yellow");
 });
 
 test('check if wild cards function works', () => {
     const test_deck: Deck = empty_q<Card>();
     make_wild_card(test_deck);
-    const rand_index = test_deck[2][random_num(test_deck[1] - 1)];
+    const rand_index = test_deck[2][random_num(test_deck[0], test_deck[1] - 1)];
     expect(rand_index.CI.color).toBe("wild");
 });
 
@@ -71,7 +79,7 @@ test('adding dupelicate cards creates a list of length 2', () => {
     const result_hand: Hand = { "green 8": list({ color: 'green', value: 8 }, { color: 'green', value: 8 })};
     const result_list = result_hand[tagg];
     expect(test_hand[tagg]).toStrictEqual(result_list);
-    expect(length(test_hand[tagg])).toBe(2);
+    expect(list_length(test_hand[tagg])).toBe(2);
 });
 
 test('remove 2 dupelicate cards removes total card from hand', () => {
@@ -142,5 +150,16 @@ test('draw +4 card for a hand returns the hand plus the added cards', () => {
     expect(length_of_hand(test_hand)).toBe(len_before_2 + 4);
 })
 
-
-
+test('refill deck increases queue length, and game pile length is 1 after refill', () => {
+    const tez: Deck = make_deck();
+    let test_s: GamePile = empty_s<Card>();
+    for(let i = 0; i < 10; i++){
+        test_s = add_card_to_gp(q_head(tez), test_s);
+        dequeue(tez);
+    }
+    test_s = refill_deck_from_gp(test_s, tez);
+    expect(list_length(test_s)).toBe(1);
+    const len_q = 108 + 9; //first added 10 cards, and refill 9 cards to deck, 1 left in gamepile
+    expect(tez[2].length).toBe(len_q);
+    
+});

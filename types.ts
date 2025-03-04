@@ -41,7 +41,7 @@ export type Card_info = {color: Color, value: Value};
  * - tag: a string which is a concatenation of the color and value of a card
  * - CI: the Card_info for the card. 
  * example: 
- * red4 has the Card {tag: "red4", CI:{color: "red", value: 4}};
+ * red4 has the Card {tag: "red 4", CI:{color: "red", value: 4}};
  */
 
 export type Card = {tag: string, CI: Card_info};
@@ -52,10 +52,10 @@ export type Card = {tag: string, CI: Card_info};
  * - value: a list of "Card_info" records and each record in the list represents one card in the hand. 
  * 
  * example: 
- * const hand = {blue4: list({ color: 'blue', value: 4 }, { color: 'blue', value: 4 })};
+ * const hand = {blue 4: list({ color: 'blue', value: 4 }, { color: 'blue', value: 4 })};
  * //this means that there are two "blue4" cards in the hand. 
  * 
- * const hand = {green1: list({ color: 'green', value: 1})};
+ * const hand = {green 1: list({ color: 'green', value: 1})};
  * //represents a hand with only one card which is "green1".
  */
 
