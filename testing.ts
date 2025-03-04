@@ -1,33 +1,37 @@
 import { is_null, head, list, tail, List, pair, append } from "./lib/list";
 import { Card, Color, Value, Card_info, Hand } from "./types";
-import { Queue, empty as empty_q, is_empty as is_empty_q, 
-    enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
-import { pop, top, Stack, NonEmptyStack, empty as empty_s, 
-    is_empty as is_empty_s, push,  } from "./lib/stack";
+import {
+    Queue, empty as empty_q, is_empty as is_empty_q,
+    enqueue, dequeue, head as q_head, display_queue
+} from "./lib/queue_array";
+import {
+    pop, top, Stack, NonEmptyStack, empty as empty_s,
+    is_empty as is_empty_s, push,
+} from "./lib/stack";
 
 //example: make_card(red, 7) ===>>>> {red7: {color: red, value: 7}};
 export function make_card(col: Color, val: Value): Card {
     return {
         tag: `${col}${val}`,
-        CI: {color: col, value: val}
+        CI: { color: col, value: val }
     };
 }
 
 export function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
-//easy to enque many times
-    for(let j = 0; j < n; j++) {
+    //easy to enque many times
+    for (let j = 0; j < n; j++) {
         enqueue(e, q);
     }
 
     return q;
 }
 //makes all cards from one color
-export function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
+export function make_color(col: Color, q: Queue<Card>): Queue<Card> {
     const p2 = "+2";
     const skip = "skip";
     const rev = "reverse";
-    for(let i = 1; i < 10; i++) {
-        const curr = make_card(col, i); 
+    for (let i = 1; i < 10; i++) {
+        const curr = make_card(col, i);
         many_enques(2, q, curr);
     }
     const p2_card = make_card(col, p2);
@@ -61,10 +65,10 @@ function swap<T>(A: Array<T>, i: number, j: number): void {
     A[j] = temp;
 }
 //fisher yates algo
-export function shuffle(q: Queue<Card>): Queue<Card>  {
+export function shuffle(q: Queue<Card>): Queue<Card> {
     const q_arr = q[2];
     const len = q_arr.length;
-    for(let i = len - 1; i >= 0; i--) { 
+    for (let i = len - 1; i >= 0; i--) {
         let j = random_int(i + 1);
         swap(q_arr, i, j);
     }
@@ -77,12 +81,12 @@ export function shuffle(q: Queue<Card>): Queue<Card>  {
 //if key is not in record => undefined
 export function delete_card_from_hand(c: Card, hand: Hand): boolean {
     const t = c.tag;
-    if(!is_null(hand[t])) {
+    if (!is_null(hand[t])) {
         hand[t] = tail(hand[t]);
-        if(is_null(hand[t])) {
+        if (is_null(hand[t])) {
             delete hand[t];
-        } else {}
-        
+        } else { }
+
         return true;
     } else {
         return false;
@@ -90,7 +94,7 @@ export function delete_card_from_hand(c: Card, hand: Hand): boolean {
 }
 export function add_card_to_hand(c: Card, hand: Hand): void {
     const tag = c.tag;
-    if(hand[tag] === undefined) {
+    if (hand[tag] === undefined) {
         hand[tag] = list(c.CI);
     } else {
         hand[tag] = pair(c.CI, hand[tag]);
@@ -127,7 +131,7 @@ function make_deck(): Queue<Card> {
 //each player gets 7 cards at beginning:
 
 function dist_cards(q: Queue<Card>, hand: Hand) {
-    for(let i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         const card_to_add = q_head(q);
         add_card_to_hand(card_to_add, hand);
         dequeue(q);
@@ -135,7 +139,7 @@ function dist_cards(q: Queue<Card>, hand: Hand) {
 }
 
 const phand: Hand = {};
-const test_deck:Queue<Card> = make_deck(); 
+const test_deck: Queue<Card> = make_deck();
 // dist_cards(test_deck, phand);
 
 // console.log(phand["red+2"]);
@@ -168,24 +172,24 @@ function current_card(gp: NonEmptyStack<Card>): Card {
 function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): void {
     const how_much_draw = val.CI.value;
 
-    if(how_much_draw === "+2") {
-        for(let i = 0; i < 2; i++) {
+    if (how_much_draw === "+2") {
+        for (let i = 0; i < 2; i++) {
             add_card_to_hand(q_head(deck), hand);
             dequeue(deck);
         }
     }
-    else if(how_much_draw === "+4") {
-        for(let i = 0; i < 4; i++) {
+    else if (how_much_draw === "+4") {
+        for (let i = 0; i < 4; i++) {
             add_card_to_hand(q_head(deck), hand);
             dequeue(deck);
         }
-    } else {}
+    } else { }
 }
 
 
-draw_plus(test_deck, phand, make_card("green", "+4"));
+/* draw_plus(test_deck, phand, make_card("green", "+4"));
 
-console.log(phand);
+console.log(phand); */
 
 
 //start game logic: 
@@ -270,3 +274,46 @@ console.log(phand);
  * 
  * 
  */
+
+
+function helloUNO() {
+    console.log("\nWelcome to UNO!\n\nYou will now face against a mighty AI. Get rid of your cards before it does!\n");
+
+}
+
+
+function make_hands() {
+
+    const player_hand: Hand = {};
+
+    const AI: Hand = {};
+
+    return { player_hand, AI };
+
+}
+
+const handz = make_hands();
+
+
+
+const deck: Queue<Card> = make_deck();
+
+dist_cards(deck, handz.player_hand);
+
+dist_cards(deck, handz.AI);
+
+helloUNO();
+
+console.log("player_hand: ")
+console.log(handz.player_hand);
+console.log("\nAI: ")
+console.log(handz.AI);
+
+
+
+
+
+
+
+
+
