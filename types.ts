@@ -49,7 +49,7 @@ export type Card = {tag: string, CI: Card_info};
 /**
  * A hand is a homogeneous record with the following properties:
  * - key: a dynamic string representing the tag of each card. 
- * - value: a list of "Card_info" records and each record in the list represents one card in the hand. 
+ * - value: a list of "Card" records and each record in the list represents one card in the hand. 
  * 
  * example: 
  * const hand = {blue 4: list({ color: 'blue', value: 4 }, { color: 'blue', value: 4 })};
@@ -59,7 +59,11 @@ export type Card = {tag: string, CI: Card_info};
  * //represents a hand with only one card which is "green1".
  */
 
-export type Hand = Record<string, List<Card_info>>;
+export type Hand = Record<string, List<Card>>;
+
+
+//const player_hand: Hand = {"red 4": list({tag: "red 4", CI:{color: "red", value: 4}}, {tag: "red 4", CI:{color: "red", value: 4}})};
+
 
 /**
  * a deck of UNO cards is represented as a homogeneous Queue where each element is a Card.

@@ -50,23 +50,15 @@ test('make deck creates 108 cards', () => {
     expect(len).toBe(108);
 });
 
-//testing game.ts
-
-// test('', () => {
-//     expect().toBe();
-// });
-
-// card = { tag: 'red6', CI: { color: 'red', value: 6 } }
-
 test('adds card to hand', () => {
     const test_hand: Hand = {};
     const test_card1 = make_card("green", 8);
     const test_card2 = make_card("red", "+2");
     add_card_to_hand(test_card1, test_hand);
     add_card_to_hand(test_card2, test_hand);
-    const result_hand: Hand = {"green 8": [ { color: 'green', value: 8 }, null ],
-                               'red +2': [ { color: 'red', value: '+2' }, null ]
-                               } 
+    const result_hand: Hand = {"green 8": list(make_card("green", 8)),
+                               'red +2': list(make_card("red", "+2"))
+                               }; 
     expect(test_hand).toStrictEqual(result_hand);
 });
 
@@ -76,7 +68,7 @@ test('adding dupelicate cards creates a list of length 2', () => {
     const tagg = test_card1.tag;
     add_card_to_hand(test_card1, test_hand);
     add_card_to_hand(test_card1, test_hand);
-    const result_hand: Hand = { "green 8": list({ color: 'green', value: 8 }, { color: 'green', value: 8 })};
+    const result_hand: Hand = { "green 8": list(make_card("green", 8), make_card("green", 8))};
     const result_list = result_hand[tagg];
     expect(test_hand[tagg]).toStrictEqual(result_list);
     expect(list_length(test_hand[tagg])).toBe(2);

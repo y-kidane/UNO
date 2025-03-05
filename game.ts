@@ -5,7 +5,7 @@ import { Queue, empty as empty_q, is_empty as is_empty_q,
 import { pop, top, Stack, NonEmptyStack, empty as empty_s, 
     is_empty as is_empty_s, push,  } from "./lib/stack";
 import { make_deck, make_card, shuffle } from "./deck";
-import * as readline from 'readline';
+import * as readline from 'readline'
 //here we make the main game logic, this is the file to run to play the game. 
 /**
  * removes a card from a hand
@@ -43,9 +43,9 @@ export function delete_card_from_hand(card: Card, hand: Hand): boolean {
 export function add_card_to_hand(card: Card, hand: Hand): void {
     const card_tag = card.tag;
     if(hand[card_tag] === undefined) {
-        hand[card_tag] = list(card.CI);
+        hand[card_tag] = list(card);
     } else {
-        hand[card_tag] = pair(card.CI, hand[card_tag]);
+        hand[card_tag] = pair(card, hand[card_tag]);
     }
 }
 /**
@@ -131,6 +131,12 @@ export function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): boolean {
         return false;
     }
 }
+
+
+
+
+
+
 /**
  * returns how many cards there are in one hand
  * @example
@@ -208,4 +214,47 @@ export function is_winning(hand: Hand): boolean {
 }
 
 //testing prompt and parsing:
+
+//general stricture:
+/**
+ * function game_loop() {
+    prompt: welcome to uno, do you want to play a game?: [y/n?]
+    if prompt === yes {
+    
+    start game: 
+
+    create deck, shuffle
+    create game pile, stack.
+
+    create player and computer hand
+    distribute 7 cards each for the hands
+
+    display player "these are your cards: " hand
+
+    place 1 random card from the deck to start the game
+
+    player places first card, by inputing strings that are the tags for their cards, 
+    parse input and  validate the tags to players hand.
+
+    fi valid input => add cards to game pile and remove from player hands
+
+    change turn: maybe do true/false or even odd for changint turn
+
+    ex let counter turn = 0, when player plays a card, add 1 to counter, now its odd, when odd its computer turn
+    when computer has placed card, increment counter by 1, now even num, player turn. 
+
+    change turn
+
+
+    random card from deck is placed on game pile
+
+    display player 
+    
+    }
+}
+
+ * 
+ * 
+ * 
+ */
 
