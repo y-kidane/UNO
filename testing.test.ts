@@ -167,7 +167,21 @@ test('the tags in the display card array are valid for hand', () => {
     expect(display_arr[0]).toStrictEqual(matches_card_tag);
 });
 
-test('check for uno with hand with lenght 1 prints uno', () => {
+test('check if displaying correct amount of cards', () => {
+    const test_hand1: Hand = {};
+    add_card_to_hand(make_card("red", 4), test_hand1);
+    add_card_to_hand(make_card("red", 4), test_hand1);
+    add_card_to_hand(make_card("blue", 9), test_hand1);
+    add_card_to_hand(make_card("green", "+2"), test_hand1);
+    add_card_to_hand(make_card("green", "+2"), test_hand1);
+    const result_arr: Array<string> = display_hand(test_hand1);
+    const expected_array = [ 'red 4', 'red 4', 'blue 9', 'green +2', 'green +2' ];
+
+    expect(result_arr).toStrictEqual(expected_array);
+    expect(result_arr.length).toBe(5);
+})
+
+test('check for uno with hand with length 1 prints uno', () => {
     const tezz: Hand = {};
     add_card_to_hand(make_card("green", 8), tezz)
     expect(check_for_uno(tezz)).toBe(true);

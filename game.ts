@@ -178,19 +178,33 @@ export function refill_deck_from_gp(game_pile: GamePile, game_deck: Deck): GameP
 }
 
 /**
- * displays all cards tags from a hand, each tag represent a card in hand
+ * displays all cards tags from a hand, each tag represents a card in hand
  * @example
- * //results in ["blue 7", "yellow 5"]
+ * //results in ["blue 7", "yellow 5", "yellow 5"]
  * const hand: Hand = {};
  * add_card_to_hand(make_card("blue", 7), handx);
+ * add_card_to_hand(make_card("yellow", 5), handx);
  * add_card_to_hand(make_card("yellow", 5), handx);
  * display_hand(hand);
  * @param hand is the hand to display the cards for
  * @returns an array where each element is tag
  */
+
 export function display_hand(hand: Hand): Array<string> {
-    return Object.keys(hand);  
+    const keys_in_hand: Array<string> = Object.keys(hand);
+    const result_arr: Array<string> = [];
+    let len_tag_index = 0;
+    for(let i = 0; i < keys_in_hand.length; i++){
+        const current_tag: string = keys_in_hand[i];
+        const list_len_key: number = list_length(hand[keys_in_hand[i]]);
+        for(let j = 0; j < list_len_key; j++){
+            result_arr[len_tag_index] = current_tag;
+            len_tag_index = len_tag_index + 1;
+        }
+    }
+    return result_arr;
 }
+
 /**
  * checks if a player has UNO, which is a hand of length 1.
  * @param hand the hand to check for UNO
