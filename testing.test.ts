@@ -4,7 +4,7 @@ import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle,
 
 import { 
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, 
-    current_card, draw_plus, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno
+    current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno
 } from "./game";
 
 import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
@@ -12,6 +12,8 @@ import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
 import { list, length as list_length, head, is_null } from "./lib/list";
 
 import { empty as empty_s } from "./lib/stack";
+
+import { AI_tags_in_arr, hand_to_card_arr } from "./ai-logic";
 
 //testing deck.ts
 test('testing if make_card function works', () => {
@@ -127,7 +129,7 @@ test('draw +2 card for a hand returns the hand plus the added cards', () => {
     add_card_to_hand(make_card("blue", 4), test_hand);
     add_card_to_hand(make_card("green", 9), test_hand);
     const len_before_2 = length_of_hand(test_hand);
-    draw_plus(make_deck(), test_hand, make_card("green", "+2"));
+    draw_plus_2_or_4(make_deck(), test_hand, make_card("green", "+2"));
 
     expect(length_of_hand(test_hand)).toBe(len_before_2 + 2);
 })
@@ -137,7 +139,7 @@ test('draw +4 card for a hand returns the hand plus the added cards', () => {
     add_card_to_hand(make_card("red", 4), test_hand);
     add_card_to_hand(make_card("yellow", 9), test_hand);
     const len_before_2 = length_of_hand(test_hand);
-    draw_plus(make_deck(), test_hand, make_card("blue", "+4"));
+    draw_plus_2_or_4(make_deck(), test_hand, make_card("blue", "+4"));
 
     expect(length_of_hand(test_hand)).toBe(len_before_2 + 4);
 })
@@ -187,3 +189,7 @@ test('check for uno with hand with length 1 prints uno', () => {
     expect(check_for_uno(tezz)).toBe(true);
 })
 
+test('turn hand into array with correct amount of cards', () => {
+    const hand = {"green 8": list(make_card("green", 8), make_card("green", 8))};
+    expect(hand_to_card_arr(hand).length).toBe(2);
+})

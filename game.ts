@@ -98,7 +98,8 @@ export function add_card_to_gp(card: Card, game_pile: GamePile): NonEmptyStack<C
  * current_card(add_card_to_gp(make_card("red", 3), empty_s<Card>()));
  * @param gp the game pile which is a stack
  * @complexity Theta(1) time complexity
- * @returns the card on top of the stack, last played card
+ * @returns the card on top of the stack, last played card. 
+ * returns false if game pile is empty.
  */
 export function current_card(gp: GamePile): Card | boolean {
     if (!is_empty_s(gp)) {
@@ -120,7 +121,7 @@ export function current_card(gp: GamePile): Card | boolean {
  * @param val the card that decides how many cards to draw
  * @returns true if cards were drawn and added to hand, false otherwise.
  */
-export function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): boolean {
+export function draw_plus_2_or_4(deck: Queue<Card>, hand: Hand, val: Card): boolean {
     const how_much_draw: Value = val.CI.value;
     if(how_much_draw === "+2") {
        return dist_cards(deck, hand, 2);  
@@ -132,10 +133,18 @@ export function draw_plus(deck: Queue<Card>, hand: Hand, val: Card): boolean {
     }
 }
 
-
-
-
-
+//selector, returns value of a card
+export function value_of_card(card: Card): Value {
+    return card.CI.value;
+}
+//selector, return color of a card. 
+export function color_of_card(card: Card): Color {
+    return card.CI.color;
+}
+//selector, returns tag of a card
+export function tag_of_card(card: Card): string {
+    return card.tag;
+}
 
 /**
  * returns how many cards there are in one hand
@@ -227,48 +236,5 @@ export function is_winning(hand: Hand): boolean {
            : false; 
 }
 
-//testing prompt and parsing:
 
-//general stricture:
-/**
- * function game_loop() {
-    prompt: welcome to uno, do you want to play a game?: [y/n?]
-    if prompt === yes {
-    
-    start game: 
-
-    create deck, shuffle
-    create game pile, stack.
-
-    create player and computer hand
-    distribute 7 cards each for the hands
-
-    display player "these are your cards: " hand
-
-    place 1 random card from the deck to start the game
-
-    player places first card, by inputing strings that are the tags for their cards, 
-    parse input and  validate the tags to players hand.
-
-    fi valid input => add cards to game pile and remove from player hands
-
-    change turn: maybe do true/false or even odd for changint turn
-
-    ex let counter turn = 0, when player plays a card, add 1 to counter, now its odd, when odd its computer turn
-    when computer has placed card, increment counter by 1, now even num, player turn. 
-
-    change turn
-
-
-    random card from deck is placed on game pile
-
-    display player 
-    
-    }
-}
-
- * 
- * 
- * 
- */
 

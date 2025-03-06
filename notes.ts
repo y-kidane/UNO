@@ -155,3 +155,48 @@
  * 
  * 
  */
+
+//testing prompt and parsing:
+
+//general stricture:
+/**
+ * function game_loop() {
+    prompt: welcome to uno, do you want to play a game?: [y/n?]
+    if prompt === yes {
+    
+    start game: 
+
+    create deck, shuffle
+    create game pile, stack.
+
+    create player and computer hand
+    distribute 7 cards each for the hands
+
+    display player "these are your cards: " hand
+
+    place 1 random card from the deck to start the game
+
+    player places first card, by inputing strings that are the tags for their cards, 
+    parse input and  validate the tags to players hand.
+
+    fi valid input => add cards to game pile and remove from player hands
+
+    change turn: maybe do true/false or even odd for changint turn
+
+    ex let counter turn = 0, when player plays a card, add 1 to counter, now its odd, when odd its computer turn
+    when computer has placed card, increment counter by 1, now even num, player turn. 
+
+    change turn
+
+
+    random card from deck is placed on game pile
+
+    display player 
+    
+    }
+}
+
+ * 
+ * 
+ * 
+ */
