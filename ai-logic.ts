@@ -4,7 +4,9 @@ import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle,
 
 import { 
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, 
-    current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno
+    current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno,
+    color_of_card,
+    value_of_card
 } from "./game";
 
 import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
@@ -62,19 +64,24 @@ export function hand_to_card_arr(hand: Hand): Array<Card> {
 }
 
 
-
-// function AI_match_card(hand: Hand, current_card: Card): Card {
-//     //arr of tags for the available cards
-//     const current_hand: Array<string> = AI_tags_in_arr(hand);
-//     const len_hand: number = current_hand.length;
-//     const curr_col: Color = current_card.CI.color;
-//     const curr_val: Value = current_card.CI.value;
-//     let result_card: Card = 
-
-//     for(let i = 0; i < len_hand; i++){
-//         const loop_card_lst: List<Card> = hand[current_hand[i]]
-//         if(!is_null(loop_card_lst)){
-//             const 
-//         }
-//     }
-// }
+/**
+ * from a hand, picks a card that matches current cards color, value or pick a wild card
+ * @param hand hand to pick card from
+ * @param current_card the card, whose color or value to match
+ * @returns an array of cards, if a card was picked than array is nonempty, otherwise empty
+ */
+export function AI_match_col_or_val(hand: Hand, current_card: Card): Array<Card> {
+    const arr_of_cards: Card[] = hand_to_card_arr(hand);
+    const curr_val: Value = current_card.CI.value;
+    const curr_col: Color = current_card.CI.color;
+    let result_card_or_bool: Array<Card> = [] 
+    for(let i = 0; i < arr_of_cards.length; i++){
+        if(color_of_card(arr_of_cards[i]) === curr_col || 
+           value_of_card(arr_of_cards[i]) === curr_val ||
+           color_of_card(arr_of_cards[i]) === "wild") {
+            result_card_or_bool[0] = arr_of_cards[i];
+            break; //first matching card gets picked
+        } else {}
+    }
+    return result_card_or_bool
+}

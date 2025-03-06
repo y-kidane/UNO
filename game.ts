@@ -235,6 +235,7 @@ export function is_winning(hand: Hand): boolean {
            ? true
            : false; 
 }
-
-
-
+//ex red 43 is not valid, blue +4 not valid, etc
+function validate_input(input: string){
+    
+}

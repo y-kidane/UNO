@@ -13,7 +13,7 @@ import { list, length as list_length, head, is_null } from "./lib/list";
 
 import { empty as empty_s } from "./lib/stack";
 
-import { AI_tags_in_arr, hand_to_card_arr } from "./ai-logic";
+import { AI_tags_in_arr, hand_to_card_arr, AI_match_col_or_val } from "./ai-logic";
 
 //testing deck.ts
 test('testing if make_card function works', () => {
@@ -132,7 +132,7 @@ test('draw +2 card for a hand returns the hand plus the added cards', () => {
     draw_plus_2_or_4(make_deck(), test_hand, make_card("green", "+2"));
 
     expect(length_of_hand(test_hand)).toBe(len_before_2 + 2);
-})
+});
 
 test('draw +4 card for a hand returns the hand plus the added cards', () => {
     const test_hand: Hand = {};
@@ -142,7 +142,7 @@ test('draw +4 card for a hand returns the hand plus the added cards', () => {
     draw_plus_2_or_4(make_deck(), test_hand, make_card("blue", "+4"));
 
     expect(length_of_hand(test_hand)).toBe(len_before_2 + 4);
-})
+});
 
 test('refill deck increases queue length, and game pile length is 1 after refill', () => {
     const tez: Deck = make_deck();
@@ -181,15 +181,30 @@ test('check if displaying correct amount of cards', () => {
 
     expect(result_arr).toStrictEqual(expected_array);
     expect(result_arr.length).toBe(5);
-})
+});
 
 test('check for uno with hand with length 1 prints uno', () => {
     const tezz: Hand = {};
     add_card_to_hand(make_card("green", 8), tezz)
     expect(check_for_uno(tezz)).toBe(true);
-})
+});
 
 test('turn hand into array with correct amount of cards', () => {
     const hand = {"green 8": list(make_card("green", 8), make_card("green", 8))};
     expect(hand_to_card_arr(hand).length).toBe(2);
-})
+});
+
+test('AI matches card from hand with current card', () => {
+    const AI_hand: Hand = {};
+    const curr_card = make_card("yellow", 7);
+    add_card_to_hand(make_card("blue", 1), AI_hand);
+    add_card_to_hand(make_card("red", 6), AI_hand);
+    add_card_to_hand(make_card("green", "+2"), AI_hand);
+    const green_match = make_card("green", "+2");
+    const test1 = AI_match_col_or_val(AI_hand, curr_card);
+    const test2 = AI_match_col_or_val(AI_hand, make_card("green", 8));
+    
+    expect(test1.length).toBe(0);
+    expect(test2[0]).toStrictEqual(green_match);
+});
+

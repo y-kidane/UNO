@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1741284578777" clover="3.2.0">
-  <project timestamp="1741284578777" name="All files">
-    <metrics statements="264" coveredstatements="210" conditionals="70" coveredconditionals="18" methods="75" coveredmethods="35" elements="409" coveredelements="263" complexity="0" loc="264" ncloc="264" packages="2" files="6" classes="6"/>
+<coverage generated="1741300024402" clover="3.2.0">
+  <project timestamp="1741300024402" name="All files">
+    <metrics statements="286" coveredstatements="234" conditionals="75" coveredconditionals="23" methods="77" coveredmethods="38" elements="438" coveredelements="295" complexity="0" loc="286" ncloc="286" packages="2" files="6" classes="6"/>
     <package name="PKD-p">
-      <metrics statements="154" coveredstatements="146" conditionals="22" coveredconditionals="16" methods="24" coveredmethods="19"/>
+      <metrics statements="176" coveredstatements="170" conditionals="27" coveredconditionals="21" methods="26" coveredmethods="22"/>
       <file name="ai-logic.js" path="/Users/yafietkidane/PKD-p/ai-logic.js">
-        <metrics statements="16" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <metrics statements="38" coveredstatements="37" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="2"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="43" count="2" type="stmt"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="38" count="4" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
+        <line num="43" count="14" type="stmt"/>
+        <line num="44" count="14" type="stmt"/>
+        <line num="45" count="15" type="stmt"/>
+        <line num="46" count="15" type="stmt"/>
+        <line num="47" count="15" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+        <line num="59" count="3" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
+        <line num="61" count="3" type="stmt"/>
+        <line num="62" count="3" type="stmt"/>
+        <line num="63" count="3" type="stmt"/>
+        <line num="64" count="7" type="cond" truecount="5" falsecount="0"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="68" count="2" type="stmt"/>
+        <line num="72" count="3" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="75" count="1" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
       </file>
       <file name="deck.js" path="/Users/yafietkidane/PKD-p/deck.js">
         <metrics statements="56" coveredstatements="56" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
@@ -35,7 +57,7 @@
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="25" count="329" type="stmt"/>
+        <line num="25" count="343" type="stmt"/>
         <line num="32" count="276" type="stmt"/>
         <line num="33" count="576" type="stmt"/>
         <line num="35" count="276" type="stmt"/>
@@ -83,7 +105,7 @@
         <line num="125" count="5" type="stmt"/>
       </file>
       <file name="game.js" path="/Users/yafietkidane/PKD-p/game.js">
-        <metrics statements="82" coveredstatements="75" conditionals="22" coveredconditionals="16" methods="14" coveredmethods="10"/>
+        <metrics statements="82" coveredstatements="77" conditionals="22" coveredconditionals="16" methods="15" coveredmethods="12"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -110,10 +132,10 @@
         <line num="41" count="1" type="stmt"/>
         <line num="44" count="2" type="stmt"/>
         <line num="47" count="1" type="stmt"/>
-        <line num="58" count="34" type="stmt"/>
-        <line num="59" count="34" type="cond" truecount="2" falsecount="0"/>
-        <line num="60" count="30" type="stmt"/>
-        <line num="63" count="4" type="stmt"/>
+        <line num="58" count="44" type="stmt"/>
+        <line num="59" count="44" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="39" type="stmt"/>
+        <line num="63" count="5" type="stmt"/>
         <line num="79" count="3" type="stmt"/>
         <line num="80" count="3" type="stmt"/>
         <line num="81" count="3" type="stmt"/>
@@ -135,14 +157,14 @@
         <line num="144" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="145" count="1" type="stmt"/>
         <line num="148" count="0" type="stmt"/>
-        <line num="153" count="0" type="stmt"/>
-        <line num="157" count="0" type="stmt"/>
+        <line num="153" count="6" type="stmt"/>
+        <line num="157" count="12" type="stmt"/>
         <line num="161" count="0" type="stmt"/>
         <line num="172" count="6" type="stmt"/>
         <line num="173" count="6" type="stmt"/>
         <line num="174" count="6" type="stmt"/>
         <line num="175" count="6" type="stmt"/>
-        <line num="176" count="22" type="stmt"/>
+        <line num="176" count="21" type="stmt"/>
         <line num="178" count="6" type="stmt"/>
         <line num="187" count="1" type="stmt"/>
         <line num="188" count="1" type="cond" truecount="1" falsecount="1"/>
@@ -195,25 +217,25 @@
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
-        <line num="35" count="53" type="stmt"/>
-        <line num="43" count="13" type="stmt"/>
-        <line num="51" count="47" type="stmt"/>
-        <line num="59" count="83" type="stmt"/>
-        <line num="69" count="34" type="stmt"/>
-        <line num="70" count="34" type="stmt"/>
-        <line num="71" count="36" type="stmt"/>
-        <line num="73" count="34" type="stmt"/>
-        <line num="74" count="34" type="stmt"/>
-        <line num="75" count="36" type="stmt"/>
-        <line num="77" count="34" type="stmt"/>
+        <line num="35" count="63" type="stmt"/>
+        <line num="43" count="26" type="stmt"/>
+        <line num="51" count="60" type="stmt"/>
+        <line num="59" count="108" type="stmt"/>
+        <line num="69" count="43" type="stmt"/>
+        <line num="70" count="43" type="stmt"/>
+        <line num="71" count="45" type="stmt"/>
+        <line num="73" count="43" type="stmt"/>
+        <line num="74" count="43" type="stmt"/>
+        <line num="75" count="45" type="stmt"/>
+        <line num="77" count="43" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
         <line num="96" count="0" type="stmt"/>
         <line num="97" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="101" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="102" count="0" type="stmt"/>
         <line num="105" count="0" type="stmt"/>
-        <line num="117" count="63" type="cond" truecount="2" falsecount="0"/>
-        <line num="119" count="30" type="stmt"/>
+        <line num="117" count="62" type="cond" truecount="2" falsecount="0"/>
+        <line num="119" count="29" type="stmt"/>
         <line num="132" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="136" count="0" type="stmt"/>
         <line num="148" count="0" type="cond" truecount="0" falsecount="2"/>
