@@ -5,7 +5,7 @@ import { Queue, empty as empty_q, is_empty as is_empty_q,
 import { pop, top, Stack, NonEmptyStack, empty as empty_s, 
     is_empty as is_empty_s, push,  } from "./lib/stack";
 import { make_deck, make_card, shuffle } from "./deck";
-import * as readline from 'readline'
+import * as promptSync from 'prompt-sync';
 //here we make the main game logic, this is the file to run to play the game. 
 /**
  * removes a card from a hand
@@ -236,6 +236,22 @@ export function is_winning(hand: Hand): boolean {
            : false; 
 }
 //ex red 43 is not valid, blue +4 not valid, etc
-function validate_input(input: string){
-    
+//make short hand name, input is always a string, 
+// const prompt = promptSync();
+// //prints the string and stores the input in the const name
+// const name = prompt("what is ur card ? ");
+// const r4: Card = make_card("red", 1);
+// const hzz: Hand = {};
+// add_card_to_hand(r4, hzz); 
+// console.log(hzz[name]);
+
+//console.log("red 4".split(" "));
+
+function is_input_valid(str: string) {
+    const test1 = str.split(" ");
+    const sec = test1[1];
+//includes is like char at but checks if any of the srings are includes(substring)
+    return isNaN(Number(sec)) || !sec.includes("+");
 }
+//fixa klart så att input strings kan valideras, 
+console.log(is_input_valid("red +2"));
