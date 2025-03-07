@@ -1,18 +1,19 @@
 import { is_null, head, list, tail, List, pair, append, for_each, length as list_length } from "./lib/list";
 import { Card, Color, Value, Card_info, Hand, Deck, GamePile } from "./types";
-import { Queue, empty as empty_q, is_empty as is_empty_q, 
+import { Queue, empty as empty_q, is_empty as is_empty_q,
     enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
-import { pop, top, Stack, NonEmptyStack, empty as empty_s, 
+import { pop, top, Stack, NonEmptyStack, empty as empty_s,
     is_empty as is_empty_s, push,  } from "./lib/stack";
 import { make_deck, make_card, shuffle } from "./deck";
 import * as promptSync from 'prompt-sync';
-//here we make the main game logic, this is the file to run to play the game. 
+import { split } from "lodash";
+//here we make the main game logic, this is the file to run to play the game.
 /**
  * removes a card from a hand
  * @example
  * //results in true
- * delete_card_from_hand({ tag: 'red5', CI: { color: 'red', value: 5 }}, 
- *                       { red4: list({ color: 'red', value: 5 }, 
+ * delete_card_from_hand({ tag: 'red5', CI: { color: 'red', value: 5 }},
+ *                       { red4: list({ color: 'red', value: 5 },
  *                                    { color: 'red', value: 5 })});
  * //results in false
  * delete_card_from_hand({ tag: 'blue9', CI: { color: 'blue', value: 9 }}, {})
@@ -38,7 +39,7 @@ export function delete_card_from_hand(card: Card, hand: Hand): boolean {
  * @param card the card to add to the hand
  * @param hand the hand to add the card to
  * @complexity Theta(1) time complexity, all operations take constant time in the function
- * 
+ *
  */
 export function add_card_to_hand(card: Card, hand: Hand): void {
     const card_tag = card.tag;
@@ -57,10 +58,10 @@ export function add_card_to_hand(card: Card, hand: Hand): void {
  * @param hand the hand to receive the cards
  * @param n how many cards to draw and add to hand
  * @complexity Theta(n) time complexity, where n is how many cards to draw.
- * @returns true if cards are distributed, false otherwise. 
+ * @returns true if cards are distributed, false otherwise.
  */
 
-//if [head, next empty, arr], if n >=next empty 
+//if [head, next empty, arr], if n >=next empty
 export function dist_cards(que: Deck, hand: Hand, n: number): boolean {
     const first_elem_in_q = que[0];
     const last_elem_in_q = que[1];
@@ -78,14 +79,14 @@ export function dist_cards(que: Deck, hand: Hand, n: number): boolean {
 }
 
 /**
- * adds a card to the game pile 
+ * adds a card to the game pile
  * @example
  * //results in list({ tag: 'red3', CI: { color: 'red', value: 3 } })
  * add_card_to_gp(make_card("red", 3), empty_s<Card>());
  * @param card the card to add to pile
  * @param game_pile the stack of the cards in the pile
  * @complexity Theta(1) time complexity
- * @returns a new stack where the added card is at the top of the stack and pile. 
+ * @returns a new stack where the added card is at the top of the stack and pile.
  */
 export function add_card_to_gp(card: Card, game_pile: GamePile): NonEmptyStack<Card> {
     const after_adding: NonEmptyStack<Card> = push(card, game_pile);
@@ -98,7 +99,7 @@ export function add_card_to_gp(card: Card, game_pile: GamePile): NonEmptyStack<C
  * current_card(add_card_to_gp(make_card("red", 3), empty_s<Card>()));
  * @param gp the game pile which is a stack
  * @complexity Theta(1) time complexity
- * @returns the card on top of the stack, last played card. 
+ * @returns the card on top of the stack, last played card.
  * returns false if game pile is empty.
  */
 export function current_card(gp: GamePile): Card | boolean {
@@ -113,7 +114,7 @@ export function current_card(gp: GamePile): Card | boolean {
  * @example
  * //results in true
  * draw_plus(make_deck(), {}, {tag: 'red+2', CI: { color: 'red', value: '+2' }})
- * 
+ *
  * //results in false
  * draw_plus(make_deck(), {}, {tag: 'blue4', CI: { color: 'blue', value: '4' }})
  * @param deck the deck to draw cards from
@@ -124,10 +125,10 @@ export function current_card(gp: GamePile): Card | boolean {
 export function draw_plus_2_or_4(deck: Queue<Card>, hand: Hand, val: Card): boolean {
     const how_much_draw: Value = val.CI.value;
     if(how_much_draw === "+2") {
-       return dist_cards(deck, hand, 2);  
+       return dist_cards(deck, hand, 2);
     }
     else if(how_much_draw === "+4") {
-        return dist_cards(deck, hand, 4); 
+        return dist_cards(deck, hand, 4);
     } else {
         return false;
     }
@@ -137,7 +138,7 @@ export function draw_plus_2_or_4(deck: Queue<Card>, hand: Hand, val: Card): bool
 export function value_of_card(card: Card): Value {
     return card.CI.value;
 }
-//selector, return color of a card. 
+//selector, return color of a card.
 export function color_of_card(card: Card): Color {
     return card.CI.color;
 }
@@ -219,9 +220,10 @@ export function display_hand(hand: Hand): Array<string> {
  * @param hand the hand to check for UNO
  * @returns true iff player has UNO, false otherwise
  */
+
 export function check_for_uno(hand: Hand): Boolean {
-    return length_of_hand(hand) === 1 
-           ? true 
+    return length_of_hand(hand) === 1
+           ? true
            : false;
 }
 
@@ -230,28 +232,39 @@ export function check_for_uno(hand: Hand): Boolean {
  * @param hand is the hand to check if it has won
  * @returns true iff length of hand is 0, false otherwise.
  */
+
 export function is_winning(hand: Hand): boolean {
-    return length_of_hand(hand) === 0 
+    return length_of_hand(hand) === 0
            ? true
-           : false; 
+           : false;
 }
-//ex red 43 is not valid, blue +4 not valid, etc
-//make short hand name, input is always a string, 
-// const prompt = promptSync();
-// //prints the string and stores the input in the const name
-// const name = prompt("what is ur card ? ");
-// const r4: Card = make_card("red", 1);
-// const hzz: Hand = {};
-// add_card_to_hand(r4, hzz); 
-// console.log(hzz[name]);
 
-//console.log("red 4".split(" "));
-
-function is_input_valid(str: string) {
-    const test1 = str.split(" ");
-    const sec = test1[1];
-//includes is like char at but checks if any of the srings are includes(substring)
-    return isNaN(Number(sec)) || !sec.includes("+");
+//check if value should be a number or one of the other values
+function num_or_draw_card(str: string): string | number {
+    return str.length > 1 //only ints have string len 1
+           ? str
+           : Number(str);
 }
-//fixa klart så att input strings kan valideras, 
-console.log(is_input_valid("red +2"));
+
+/**
+ * validate an input string by checking of components match Color or Value
+ * @example
+ * //results in true
+ * is_valid_input("yellow  +2")
+ * @param input the string to validate
+ * @returns true iff input is a valid UNO card, false otherwise
+ * //can't test input and prompt in jest, but this code does work.
+ */
+
+export function is_valid_input(input: string): boolean {
+    const valid_colors = ["red", "yellow", "blue", "green", "wild"];
+    const valid_values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "+4", "+2", "new-color", "skip", "reverse"];
+    const split_input = input.split(/\s+/); //split between all space,
+    if(split_input.length < 2){
+        return false;
+    } else {}
+    const col = split_input[0];
+    const val = num_or_draw_card(split_input[1]);
+
+    return valid_colors.includes(col) && valid_values.includes(val);
+}

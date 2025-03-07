@@ -27,3 +27,4 @@ checklist after wednesday 26:
 - fix function specifications for every function.  
 - added lodahs library for random num generator with intervall.
 - installed prompt-sync for input and prompt handeling. 
+

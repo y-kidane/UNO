@@ -21,7 +21,7 @@ export type Color = "red" | "yellow" | "blue" | "green" | "wild";
  * - "reverse": reverse turn order.
 */
 
-export type Value = number | "+4" | "+2" | "new color" | "skip" | "reverse";
+export type Value = number | "+4" | "+2" | "new-color" | "skip" | "reverse";
 
 /**
  * Card_info is the information about an UNO card, stored in a record. 

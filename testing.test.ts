@@ -2,9 +2,10 @@ import { Card, Card_info, Hand, Color, Value, Deck, GamePile } from "./types";
 
 import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./deck";
 
-import { 
-    delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, 
-    current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno
+import {
+    delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
+    current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp,
+    display_hand, check_for_uno, is_winning
 } from "./game";
 
 import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
@@ -41,7 +42,7 @@ test('same number of elements in deck after shuffling', () => {
     const len_before = test_deck[2].length;
     shuffle(test_deck);
     const len_after_shuffle = test_deck[2].length;
-    
+
     expect(len_after_shuffle).toBe(len_before);
 });
 
@@ -60,7 +61,7 @@ test('adds card to hand', () => {
     add_card_to_hand(test_card2, test_hand);
     const result_hand: Hand = {"green 8": list(make_card("green", 8)),
                                'red +2': list(make_card("red", "+2"))
-                               }; 
+                               };
     expect(test_hand).toStrictEqual(result_hand);
 });
 
@@ -155,7 +156,7 @@ test('refill deck increases queue length, and game pile length is 1 after refill
     expect(list_length(test_s)).toBe(1);
     const len_q = 108 + 9; //first added 10 cards, and refill 9 cards to deck, 1 left in gamepile
     expect(tez[2].length).toBe(len_q);
-    
+
 });
 
 test('the tags in the display card array are valid for hand', () => {
@@ -203,7 +204,7 @@ test('AI matches card from hand with current card', () => {
     const green_match = make_card("green", "+2");
     const test1 = AI_match_col_or_val(AI_hand, curr_card);
     const test2 = AI_match_col_or_val(AI_hand, make_card("green", 8));
-    
+
     expect(test1.length).toBe(0);
     expect(test2[0]).toStrictEqual(green_match);
 });

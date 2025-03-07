@@ -63,7 +63,7 @@ export function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
 export function make_wild_card(q: Queue<Card>): Queue<Card> {
     const col: Color = "wild";
     const take_4: Value = "+4";
-    const pick_col: Value = "new color";
+    const pick_col: Value = "new-color";
     const made_4 = make_card(col, take_4);
     const made_pick_c = make_card(col, pick_col);
     many_enques(4, q, made_4);
