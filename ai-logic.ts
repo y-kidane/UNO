@@ -9,11 +9,11 @@ import {
     value_of_card
 } from "./game";
 
-import { empty as empty_q, head as q_head, dequeue } from "../lib/queue_array";
+import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
 
-import { list, length as list_length, head, is_null, List, for_each, tail } from "../lib/list";
+import { list, length as list_length, head, is_null, List, for_each, tail } from "./lib/list";
 
-import { empty as empty_s } from "../lib/stack";
+import { empty as empty_s } from "./lib/stack";
 
 
 //here we make the algo for the AI/computer (vs player)
