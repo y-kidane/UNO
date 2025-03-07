@@ -1,5 +1,5 @@
 import { Card, Color, Value, Deck} from "./types";
-import { Queue, dequeue, empty as empty_q, enqueue, head as q_head } from "./lib/queue_array";
+import { Queue, dequeue, empty as empty_q, enqueue, head as q_head } from "../lib/queue_array";
 import { random as imported_random_gen } from 'lodash';
 
 
