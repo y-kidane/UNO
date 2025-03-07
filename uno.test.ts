@@ -6,7 +6,7 @@ import {
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
     current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp,
     display_hand, check_for_uno, is_winning
-} from "./modules/game";
+} from "./game";
 
 import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
 
