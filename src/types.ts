@@ -86,3 +86,4 @@ export type Deck = Queue<Card>;
 
 export type GamePile = Stack<Card>;
 
+export type Mult_hands = {ai_hand: Hand, player_hand: Hand};

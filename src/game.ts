@@ -1,5 +1,5 @@
 import { is_null, head, list, tail, List, pair, append, for_each, length as list_length } from "../lib/list";
-import { Card, Color, Value, Card_info, Hand, Deck, GamePile } from "./types";
+import { Card, Color, Value, Card_info, Hand, Deck, GamePile, Mult_hands } from "./types";
 import { Queue, empty as empty_q, is_empty as is_empty_q,
     enqueue, dequeue, head as q_head, display_queue } from "../lib/queue_array";
 import { pop, top, Stack, NonEmptyStack, empty as empty_s,
@@ -250,7 +250,7 @@ function num_or_draw_card(str: string): string | number {
  * validate an input string by checking of components match Color or Value
  * @example
  * //results in true
- * is_valid_input("yellow  +2")
+ * is_valid_input("yellow         +2")
  * @param input the string to validate
  * @returns true iff input is a valid UNO card, false otherwise
  * //can't test input and prompt in jest, but this code does work.
@@ -267,4 +267,29 @@ export function is_valid_input(input: string): boolean {
     const val = num_or_draw_card(split_input[1]);
 
     return valid_colors.includes(col) && valid_values.includes(val);
+}
+
+/**
+ * prints welcome message and asks if user wants to play
+ * @returns true if input is "y", false if "n", loop otherwise
+ */
+function welcome_screen(): boolean {
+    const prompt = promptSync();
+    console.log("Welcome to UNO. Would you like to play a game against the AI? [y/n] ");
+    while(true){
+        const user_input_start = prompt("Answer: ");
+        if(user_input_start === "y"){
+            return true;
+        } else if(user_input_start === "n"){
+            return false;
+        } else{
+            console.log("invalid input, try again");
+        }
+    }
+}
+
+
+function game_run() {
+    const all_hands: Mult_hands = {ai_hand: {}, player_hand: {}};
+    
 }
