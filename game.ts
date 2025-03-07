@@ -1,5 +1,5 @@
 import { is_null, head, list, tail, List, pair, append, for_each, length as list_length } from "./lib/list";
-import { Card, Color, Value, Card_info, Hand, Deck, GamePile } from "./modules/types";
+import { Card, Color, Value, Card_info, Hand, Deck, GamePile } from "./types";
 import { Queue, empty as empty_q, is_empty as is_empty_q,
     enqueue, dequeue, head as q_head, display_queue } from "./lib/queue_array";
 import { pop, top, Stack, NonEmptyStack, empty as empty_s,
@@ -68,7 +68,7 @@ export function dist_cards(que: Deck, hand: Hand, n: number): boolean {
     const cards_in_deck = last_elem_in_q - first_elem_in_q;
     if(n <= cards_in_deck) {
         for(let i = 0; i < n; i++) {
-            const card_to_add = q_head(que);
+            const card_to_add: Card = q_head(que);
             add_card_to_hand(card_to_add, hand);
             dequeue(que);
         }

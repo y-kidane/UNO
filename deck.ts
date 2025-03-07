@@ -13,7 +13,7 @@ import { random as imported_random_gen } from 'lodash';
  * @complexity Theta(1) time complexity, regardless of color or value
  * @returns a record with following properties:
  * - tag: a string which is a concatenation of the color and value of a card.
- * - CI: a record containing the color and value of a UNO card. 
+ * - CI: a record containing the color and value of a UNO card.
  */
 export function make_card(col: Color, val: Value): Card {
     return {
@@ -23,7 +23,7 @@ export function make_card(col: Color, val: Value): Card {
 }
 
 
-//enqueue an element n times, Theta(n) complexity where n is number of enqueues. 
+//enqueue an element n times, Theta(n) complexity where n is number of enqueues.
 export function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
     for(let j = 0; j < n; j++) {
         enqueue(e, q);
@@ -42,7 +42,7 @@ export function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
     const skip = "skip";
     const rev = "reverse";
     for(let i = 1; i < 10; i++) {
-        const curr = make_card(col, i); 
+        const curr = make_card(col, i);
         many_enques(2, q, curr);
     }
     const p2_card = make_card(col, p2);
@@ -58,7 +58,7 @@ export function make_color(col: Color, q: Queue<Card> ): Queue<Card> {
  * creates all the wild cards in UNO and adds them to the queue
  * @param q the queue to add the cards to
  * @complexity Theta(1) time complexity, number of steps always the same
- * @returns a queue where all wild cards have been added to the queue. 
+ * @returns a queue where all wild cards have been added to the queue.
  */
 export function make_wild_card(q: Queue<Card>): Queue<Card> {
     const col: Color = "wild";
@@ -81,7 +81,7 @@ export function random_num(min: number, max: number): number {
     return imported_random_gen(min, max, false);
 
 }
-//helper function: swaps place on 2 indexes in an array. 
+//helper function: swaps place on 2 indexes in an array.
 function swap<T>(A: Array<T>, i: number, j: number): void {
     const temp = A[i];
     A[i] = A[j];
@@ -89,17 +89,17 @@ function swap<T>(A: Array<T>, i: number, j: number): void {
 }
 
 /**
- * shuffles a queue in place, using Fisher Yates algorithm which 
+ * shuffles a queue in place, using Fisher Yates algorithm which
  * ensures that all elements have an equal chance to appear in any position.
  * @param q the queue to shuffle
  * @complexity Theta(n) time complexity, where n is the length of the queue.
- * @returns a queue with same elements but in randomized order. 
+ * @returns a queue with same elements but in randomized order.
  */
 export function shuffle(q: Queue<Card>): Queue<Card>  {
     const q_arr = q[2];
     const begin = q[0];
     const end = q[1] - 1;
-    for(let i = end; i >= begin; i--) { 
+    for(let i = end; i >= begin; i--) {
         let j = random_num(begin, end);
         swap(q_arr, i, j);
     }
@@ -109,7 +109,7 @@ export function shuffle(q: Queue<Card>): Queue<Card>  {
 /**
  * creates a deck with all 108 UNO cards.
  * @complexity Theta(1) time complexity, always same number of steps
- * @returns a queue with all 108 cards where the cards 
+ * @returns a queue with all 108 cards where the cards
  * are shuffled and in randomized order.
  */
 export function make_deck(): Deck {

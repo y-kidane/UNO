@@ -1,4 +1,4 @@
-import { Card, Card_info, Hand, Color, Value, Deck, GamePile } from "./modules/types";
+import { Card, Card_info, Hand, Color, Value, Deck, GamePile } from "./types";
 
 import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./deck";
 
@@ -14,7 +14,7 @@ import { list, length as list_length, head, is_null } from "./lib/list";
 
 import { empty as empty_s } from "./lib/stack";
 
-import { AI_tags_in_arr, hand_to_card_arr, AI_match_col_or_val } from "./modules/ai-logic";
+import { AI_tags_in_arr, hand_to_card_arr, AI_match_col_or_val } from "./ai-logic";
 
 //testing deck.ts
 test('testing if make_card function works', () => {
