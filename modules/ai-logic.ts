@@ -2,36 +2,36 @@ import { Card, Card_info, Hand, Color, Value, Deck, GamePile } from "./types";
 
 import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./deck";
 
-import { 
-    delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp, 
+import {
+    delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
     current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno,
     color_of_card,
     value_of_card
 } from "./game";
 
-import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
+import { empty as empty_q, head as q_head, dequeue } from "../lib/queue_array";
 
-import { list, length as list_length, head, is_null, List, for_each, tail } from "./lib/list";
+import { list, length as list_length, head, is_null, List, for_each, tail } from "../lib/list";
 
-import { empty as empty_s } from "./lib/stack";
+import { empty as empty_s } from "../lib/stack";
 
 
 //here we make the algo for the AI/computer (vs player)
 
 /**
- * 
+ *
  * main work:
- * 
+ *
  * turn hands of ai to an array of cards, and iterate over all cards CI, and do an if check
  * if(color or value matches current card) => place that card directly and change turn
  * if none of the cards match, check for wild cards and place them and change turn to player
  * if player gives draw to ai, just mod ai hand as normal
  * len of hand and check for UNO will be done in main game loop check
- * 
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
+ *
  */
 
 export function AI_tags_in_arr(hand: Hand) {
@@ -74,9 +74,9 @@ export function AI_match_col_or_val(hand: Hand, current_card: Card): Array<Card>
     const arr_of_cards: Card[] = hand_to_card_arr(hand);
     const curr_val: Value = current_card.CI.value;
     const curr_col: Color = current_card.CI.color;
-    let result_card_or_bool: Array<Card> = [] 
+    let result_card_or_bool: Array<Card> = []
     for(let i = 0; i < arr_of_cards.length; i++){
-        if(color_of_card(arr_of_cards[i]) === curr_col || 
+        if(color_of_card(arr_of_cards[i]) === curr_col ||
            value_of_card(arr_of_cards[i]) === curr_val ||
            color_of_card(arr_of_cards[i]) === "wild") {
             result_card_or_bool[0] = arr_of_cards[i];
