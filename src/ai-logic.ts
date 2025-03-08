@@ -85,3 +85,5 @@ export function AI_match_col_or_val(hand: Hand, current_card: Card): Array<Card>
     }
     return result_card_or_bool
 }
+
+//function for picking color after placing wild card. 

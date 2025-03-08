@@ -4,9 +4,9 @@ import { Queue, empty as empty_q, is_empty as is_empty_q,
     enqueue, dequeue, head as q_head, display_queue } from "../lib/queue_array";
 import { pop, top, Stack, NonEmptyStack, empty as empty_s,
     is_empty as is_empty_s, push,  } from "../lib/stack";
-import { make_deck, make_card, shuffle } from "./deck";
+import { make_deck, make_card, shuffle, make_wild_card } from "./deck";
 import * as promptSync from 'prompt-sync';
-import { split } from "lodash";
+import { first, split } from "lodash";
 //here we make the main game logic, this is the file to run to play the game.
 /**
  * removes a card from a hand
@@ -287,9 +287,54 @@ function welcome_screen(): boolean {
         }
     }
 }
+/**
+ * picks a card with number type value from deck, adds to gamepile
+ * @param gp the current gamepile
+ * @param deck the deck to pick cards from
+ * @precondition deck must contain number cards
+ * @returns a game pile where last placed card is a number card.
+ */
+
+export function start_card(gp: GamePile, deck: Deck): GamePile {
+    while(true){
+        if(is_empty_q(deck)){
+            gp = refill_deck_from_gp(gp, deck);
+            if(is_empty_q(deck)){
+                throw new Error("Cannot draw cards if deck and game pile is empty");
+                //to handle infinite looping issue, but won't happen in UNO
+            } else {}
+
+        } else {
+            const drawn_card: Card = q_head(deck);
+            dequeue(deck);
+            gp = add_card_to_gp(drawn_card, gp);
+            if(typeof value_of_card(drawn_card) === "number"){
+                return gp;
+            }
+        }
+    }
+}
+
+/**
+ * distributes 7 cards each to each hand in all_hands
+ * @param hands a record containing hands
+ * @precondition deck must be nonempty
+ * @param deck the deck to pick cards from
+ */
+export function start_of_game_dist(all_hands: Mult_hands, deck: Deck): void {
+    dist_cards(deck, all_hands.player_hand, 7);
+    dist_cards(deck, all_hands.ai_hand, 7);
+}
 
 
 function game_run() {
     const all_hands: Mult_hands = {ai_hand: {}, player_hand: {}};
-    
+    const game_deck: Deck = make_deck();
+    let game_pile: GamePile = empty_s<Card>();
+    dist_cards(game_deck, all_hands.player_hand, 7);
+    dist_cards(game_deck, all_hands.ai_hand, 7);
+
+    console.log("these are your cards: ", display_hand(all_hands.player_hand));
 }
+//vad kvar:
+//
