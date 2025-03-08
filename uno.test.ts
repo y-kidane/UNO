@@ -1,11 +1,11 @@
-import { Card, Card_info, Hand, Color, Value, Deck, GamePile } from "./src/types";
+import { Card, Card_info, Hand, Color, Value, Deck, GamePile, Mult_hands } from "./src/types";
 
 import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./src/deck";
 
 import {
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
     current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp,
-    display_hand, check_for_uno, is_winning
+    display_hand, check_for_uno, is_winning, start_of_game_dist
 } from "./src/game";
 
 import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
@@ -209,3 +209,15 @@ test('AI matches card from hand with current card', () => {
     expect(test2[0]).toStrictEqual(green_match);
 });
 
+test('start of game distribute 7 cards each', () => {
+    const handz: Mult_hands = {
+        ai_hand: {},
+        player_hand: {}
+    };
+    const test_deck: Deck = make_deck();
+    start_of_game_dist(handz, test_deck);
+    const hand_len_pl = length_of_hand(handz.player_hand);
+    const hand_len_ai = length_of_hand(handz.ai_hand);
+    expect(hand_len_pl).toBe(7);
+    expect(hand_len_ai).toBe(7);
+});
