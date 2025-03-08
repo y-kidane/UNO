@@ -102,11 +102,11 @@ export function add_card_to_gp(card: Card, game_pile: GamePile): NonEmptyStack<C
  * @returns the card on top of the stack, last played card.
  * returns false if game pile is empty.
  */
-export function current_card(gp: GamePile): Card | boolean {
+export function current_card(gp: GamePile): Card  {
     if (!is_empty_s(gp)) {
         return top(gp);
     } else {
-        return false;
+        throw new Error("cannot take top from empty stack");
     }
 }
 /**
@@ -119,11 +119,11 @@ export function current_card(gp: GamePile): Card | boolean {
  * draw_plus(make_deck(), {}, {tag: 'blue4', CI: { color: 'blue', value: '4' }})
  * @param deck the deck to draw cards from
  * @param hand the hand to receive the drawn cards
- * @param val the card that decides how many cards to draw
+ * @param what_draw_card the card that decides how many cards to draw
  * @returns true if cards were drawn and added to hand, false otherwise.
  */
-export function draw_plus_2_or_4(deck: Queue<Card>, hand: Hand, val: Card): boolean {
-    const how_much_draw: Value = val.CI.value;
+export function draw_plus_2_or_4(deck: Queue<Card>, hand: Hand, what_draw_card: Card): boolean {
+    const how_much_draw: Value = what_draw_card.CI.value;
     if(how_much_draw === "+2") {
        return dist_cards(deck, hand, 2);
     }
@@ -240,7 +240,7 @@ export function is_winning(hand: Hand): boolean {
 }
 
 //check if value should be a number or one of the other values
-function num_or_draw_card(str: string): string | number {
+function is_val_num_or_str(str: string): string | number {
     return str.length > 1 //only ints have string len 1
            ? str
            : Number(str);
@@ -264,7 +264,7 @@ export function is_valid_input(input: string): boolean {
         return false;
     } else {}
     const col = split_input[0];
-    const val = num_or_draw_card(split_input[1]);
+    const val = is_val_num_or_str(split_input[1]);
 
     return valid_colors.includes(col) && valid_values.includes(val);
 }
@@ -275,15 +275,16 @@ export function is_valid_input(input: string): boolean {
  */
 function welcome_screen(): boolean {
     const prompt = promptSync();
-    console.log("Welcome to UNO. Would you like to play a game against the AI? [y/n] ");
+    console.log("\nWelcome to UNO. Would you like to play a game against the AI? [y/n]\n ");
     while(true){
         const user_input_start = prompt("Answer: ");
         if(user_input_start === "y"){
             return true;
         } else if(user_input_start === "n"){
+            console.log("No worries, have a good day!")
             return false;
         } else{
-            console.log("invalid input, try again");
+            console.log("invalid input, try again\n");
         }
     }
 }
@@ -325,16 +326,63 @@ export function start_of_game_dist(all_hands: Mult_hands, deck: Deck): void {
     dist_cards(deck, all_hands.player_hand, 7);
     dist_cards(deck, all_hands.ai_hand, 7);
 }
-
+function game_rule() {
+    console.log("\nHow to play: \n");
+    console.log("The goal of the game is to get rid of all your cards before the computer");
+    console.log("\n- To place a card: enter the color and value of the chosen card.");
+    console.log("example: 'red 7' or 'wild +4' or 'yellow skip");
+    console.log("- To see your hand of UNO cards: display");
+    console.log("- To draw a card from deck: draw");
+    console.log("- to quit the game enter: quit");
+    console.log("\nGood luck\n");
+}
 
 function game_run() {
-    const all_hands: Mult_hands = {ai_hand: {}, player_hand: {}};
-    const game_deck: Deck = make_deck();
-    let game_pile: GamePile = empty_s<Card>();
-    dist_cards(game_deck, all_hands.player_hand, 7);
-    dist_cards(game_deck, all_hands.ai_hand, 7);
+    //to check if valid input val_inp.includes(input) returns bool
+    const valid_inputs = ["y", "n", "display", "quit", "draw"];
+    if(welcome_screen()){
+        game_rule();
+        const all_hands: Mult_hands = {ai_hand: {}, player_hand: {}};
+        const game_deck: Deck = make_deck();
+        let game_pile: GamePile = empty_s<Card>();
+        start_of_game_dist(all_hands, game_deck);
+        console.log("These are your cards: ", display_hand(all_hands.player_hand));
+        console.log("The top card is: ");
+        game_pile = start_card(game_pile, game_deck);
+        if(!is_empty_s(game_pile)){
+            console.log(current_card(game_pile).tag);
+        } else {}
+        let whose_turn: "player" | "ai" = "player";
 
-    console.log("these are your cards: ", display_hand(all_hands.player_hand));
+        while(!is_winning(all_hands.ai_hand) && !is_winning(all_hands.player_hand)){
+            //tempelate for game play
+            const prompt = promptSync();
+            const player_input = prompt("Pick a card: ");
+
+            // if(is_valid_input(player_input)){
+            //     //place card on gamepile and remove from player hand
+            //     //if wild card; input choose color
+            //     //change turn to ai
+            //     //continiue game woth ai plays
+            // } else if() {
+            //     //handle inputs like display or quit or draw
+            //     //ex show cards, change turn based on input ex draw
+            //     //here is alt way to end game besides winning/losing.
+
+
+            // } else {
+            //     //invalid input, change nothing in gamestate and loop the while.
+            // } //maybe change place on if elses so isvalinput is in else last one.
+
+
+
+        }
+
+
+    } else {}
+
 }
+
+game_run();
 //vad kvar:
 //
