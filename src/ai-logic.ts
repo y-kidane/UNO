@@ -86,7 +86,7 @@ export function AI_match_col_or_val(hand: Hand, current_card: Card): Array<Card>
     return res_card_arr
 }
 
-export function can_ai_match(hand: Hand, current_card: Card){
+export function can_ai_match(hand: Hand, current_card: Card): boolean {
     const arr_of_cards = AI_match_col_or_val(hand, current_card);
     return arr_of_cards.length > 0;
 }
