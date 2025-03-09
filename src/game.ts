@@ -1,5 +1,5 @@
 import { is_null, head, list, tail, List, pair, append, for_each, length as list_length } from "../lib/list";
-import { Card, Color, Value, Card_info, Hand, Deck, GamePile, Mult_hands } from "./types";
+import { Card, Color, Value, Card_info, Hand, Deck, GamePile, Mult_hands, Game_state } from "./types";
 import { Queue, empty as empty_q, is_empty as is_empty_q,
     enqueue, dequeue, head as q_head, display_queue } from "../lib/queue_array";
 import { pop, top, Stack, NonEmptyStack, empty as empty_s,
@@ -109,6 +109,12 @@ export function current_card(gp: GamePile): Card  {
         throw new Error("cannot take top from empty stack");
     }
 }
+
+//makes an empty game pile
+export function make_gp(): GamePile {
+    return empty_s<Card>();
+}
+
 /**
  * draws cards from deck and adds them to a hand based on the value of a card
  * @example
@@ -339,44 +345,49 @@ function game_rule() {
 
 function game_run() {
     //to check if valid input val_inp.includes(input) returns bool
-    const valid_inputs = ["y", "n", "display", "quit", "draw"];
+    const valid_inputs = ["y", "n", "display", "quit", "draw", "help"];
     if(welcome_screen()){
         game_rule();
-        const all_hands: Mult_hands = {ai_hand: {}, player_hand: {}};
-        const game_deck: Deck = make_deck();
-        let game_pile: GamePile = empty_s<Card>();
-        start_of_game_dist(all_hands, game_deck);
-        console.log("These are your cards: ", display_hand(all_hands.player_hand));
+        const game_state: Game_state = {
+            all_hands: {ai_hand: {}, player_hand: {}},
+            game_deck: make_deck(),
+            game_pile: make_gp(),
+            current_turn: "player",
+            is_game_over: false
+        };
+        start_of_game_dist(game_state.all_hands, game_state.game_deck);
+        console.log("These are your cards: ", display_hand(game_state.all_hands.player_hand));
         console.log("The top card is: ");
-        game_pile = start_card(game_pile, game_deck);
-        if(!is_empty_s(game_pile)){
-            console.log(current_card(game_pile).tag);
+        game_state.game_pile = start_card(game_state.game_pile, game_state.game_deck);
+        
+        if(!is_empty_s(game_state.game_pile)){
+            console.log(current_card(game_state.game_pile).tag);
         } else {}
-        let whose_turn: "player" | "ai" = "player";
-
-        while(!is_winning(all_hands.ai_hand) && !is_winning(all_hands.player_hand)){
-            //tempelate for game play
-            const prompt = promptSync();
-            const player_input = prompt("Pick a card: ");
-
-            // if(is_valid_input(player_input)){
-            //     //place card on gamepile and remove from player hand
-            //     //if wild card; input choose color
-            //     //change turn to ai
-            //     //continiue game woth ai plays
-            // } else if() {
-            //     //handle inputs like display or quit or draw
-            //     //ex show cards, change turn based on input ex draw
-            //     //here is alt way to end game besides winning/losing.
 
 
-            // } else {
-            //     //invalid input, change nothing in gamestate and loop the while.
-            // } //maybe change place on if elses so isvalinput is in else last one.
+        // while(!is_winning(game_state.all_hands.ai_hand) && !is_winning(game_state.all_hands.player_hand)){
+        //     //tempelate for game play
+        //     const prompt = promptSync();
+        //     const player_input = prompt("Pick a card: ");
+
+        //     // if(is_valid_input(player_input)){
+        //     //     //place card on gamepile and remove from player hand
+        //     //     //if wild card; input choose color
+        //     //     //change turn to ai
+        //     //     //continiue game woth ai plays
+        //     // } else if() {
+        //     //     //handle inputs like display or quit or draw
+        //     //     //ex show cards, change turn based on input ex draw
+        //     //     //here is alt way to end game besides winning/losing.
+
+
+        //     // } else {
+        //     //     //invalid input, change nothing in gamestate and loop the while.
+        //     // } //maybe change place on if elses so isvalinput is in else last one.
 
 
 
-        }
+        // }
 
 
     } else {}

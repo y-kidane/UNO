@@ -86,4 +86,20 @@ export type Deck = Queue<Card>;
 
 export type GamePile = Stack<Card>;
 
+
+/**
+ * a record to hold all players hands
+ */
 export type Mult_hands = {ai_hand: Hand, player_hand: Hand};
+
+/**
+ * game state represents the overall state of the game
+ * where all information about the current game is in one record.
+ */
+export type Game_state = {
+    all_hands: Mult_hands,
+    game_deck: Deck,
+    game_pile: GamePile,
+    current_turn: "player" | "ai",
+    is_game_over: boolean
+}
