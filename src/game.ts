@@ -8,6 +8,25 @@ import { make_deck, make_card, shuffle, make_wild_card } from "./deck";
 import * as promptSync from 'prompt-sync';
 import { first, split } from "lodash";
 //here we make the main game logic, this is the file to run to play the game.
+
+/**
+ * checks if a card is in a hand.
+ * @param hand the hand to check in
+ * @param tag the tag for the card to look for in hand
+ * @returns true iff card is in hand, false otherwise.
+ */
+export function is_card_in_hand(hand: Hand, tag: string): boolean {
+    const card_in_hand: undefined | List<Card> = hand[tag];
+    return card_in_hand !== undefined && !is_null(card_in_hand);
+}
+
+export function make_card_from_tag(tag: string){
+    const arr_of_info = tag.split(/\s+/);
+    if(typeof arr_of_info[0] ===)
+    return make_card(arr_of_info[0], arr_of_info[1]);
+}
+
+
 /**
  * removes a card from a hand
  * @example
@@ -359,35 +378,59 @@ function game_run() {
         console.log("These are your cards: ", display_hand(game_state.all_hands.player_hand));
         console.log("The top card is: ");
         game_state.game_pile = start_card(game_state.game_pile, game_state.game_deck);
-        
+
         if(!is_empty_s(game_state.game_pile)){
             console.log(current_card(game_state.game_pile).tag);
         } else {}
 
 
-        // while(!is_winning(game_state.all_hands.ai_hand) && !is_winning(game_state.all_hands.player_hand)){
-        //     //tempelate for game play
-        //     const prompt = promptSync();
-        //     const player_input = prompt("Pick a card: ");
+        while(!game_state.is_game_over ||
+              (!is_winning(game_state.all_hands.ai_hand) &&
+              !is_winning(game_state.all_hands.player_hand))){
 
-        //     // if(is_valid_input(player_input)){
-        //     //     //place card on gamepile and remove from player hand
-        //     //     //if wild card; input choose color
-        //     //     //change turn to ai
-        //     //     //continiue game woth ai plays
-        //     // } else if() {
-        //     //     //handle inputs like display or quit or draw
-        //     //     //ex show cards, change turn based on input ex draw
-        //     //     //here is alt way to end game besides winning/losing.
+            const prompt = promptSync();
+            const player_input = prompt("Pick a card: ");
+
+            if(valid_inputs.includes(player_input)){
+                //handle_alts(game_state, player_input): boolean;
+                //if true keep playing game,
+                //if false exit the while loop.
 
 
-        //     // } else {
-        //     //     //invalid input, change nothing in gamestate and loop the while.
-        //     // } //maybe change place on if elses so isvalinput is in else last one.
+            } else if(is_valid_input(player_input) &&
+            is_card_in_hand((game_state.all_hands.player_hand),player_input)) {
+
+                const card_to_place = head(game_state.all_hands.player_hand[player_input]);
+
+                //place card on gamepile and remove from player hand
+                //if wild card; input choose color
+                //change turn to ai
+                //continiue game woth ai plays
 
 
 
-        // }
+            } else {
+                //no change in gamestate, input loop again
+                console.log("invalid input, try again.");
+            }
+
+
+
+        }
+
+        if(is_winning(game_state.all_hands.player_hand)){
+            console.log("Congratulations, you beat the AI!");
+        } else {
+            console.log("You lost!");
+        }
+        const p_g_prompt = promptSync();
+        const play_again = p_g_prompt("Do you want to play another game of UNO? [y/n]\n");
+
+        if(play_again === "y"){
+            game_run();
+        } else {
+            console.log("No worries, have a good day!\n");
+        }
 
 
     } else {}
