@@ -4,7 +4,7 @@ import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle,
 
 import {
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
-    current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp,
+    current_top_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp,
     display_hand, check_for_uno, is_winning, start_of_game_dist
 } from "./src/game";
 
@@ -116,13 +116,13 @@ test('the last added card to the game pile is the current card', () => {
 
     game_pile = add_card_to_gp(last_added, add_card_to_gp(test_card1, game_pile));
 
-    expect(current_card(game_pile)).toStrictEqual(last_added);
+    expect(current_top_card(game_pile)).toStrictEqual(last_added);
 
 });
 
 test('if game pile empty, return false', () => {
     let game_pile: GamePile = empty_s<Card>();
-    expect(current_card(game_pile)).toBe(false);
+    expect(current_top_card(game_pile)).toBe(false);
 });
 
 test('draw +2 card for a hand returns the hand plus the added cards', () => {
