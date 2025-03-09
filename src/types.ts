@@ -101,5 +101,6 @@ export type Game_state = {
     game_deck: Deck,
     game_pile: GamePile,
     current_turn: "player" | "ai",
+    current_color?: string
     is_game_over: boolean
 }

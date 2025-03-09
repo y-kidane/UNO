@@ -4,10 +4,21 @@ import { Queue, empty as empty_q, is_empty as is_empty_q,
     enqueue, dequeue, head as q_head, display_queue } from "../lib/queue_array";
 import { pop, top, Stack, NonEmptyStack, empty as empty_s,
     is_empty as is_empty_s, push,  } from "../lib/stack";
-import { make_deck, make_card, shuffle, make_wild_card } from "./deck";
+import { make_deck, make_card, shuffle, make_wild_card, random_num } from "./deck";
 import * as promptSync from 'prompt-sync';
 import { first, split } from "lodash";
+import { AI_match_col_or_val, can_ai_match, ai_picked_card, AI_tags_in_arr, hand_to_card_arr } from "./ai-logic";
 //here we make the main game logic, this is the file to run to play the game.
+/**
+ * draw one card from a deck
+ * @param deck the deck to draw card from
+ * @returns returns a card
+ */
+export function draw_card_from_deck(deck: Deck): Card {
+    const drawn_c = q_head(deck);
+    dequeue(deck);
+    return drawn_c;
+}
 
 /**
  * checks if a card is in a hand.
@@ -19,13 +30,19 @@ export function is_card_in_hand(hand: Hand, tag: string): boolean {
     const card_in_hand: undefined | List<Card> = hand[tag];
     return card_in_hand !== undefined && !is_null(card_in_hand);
 }
-
-export function make_card_from_tag(tag: string){
-    const arr_of_info = tag.split(/\s+/);
-    if(typeof arr_of_info[0] ===)
-    return make_card(arr_of_info[0], arr_of_info[1]);
+/**
+ * checks if the card to place matches
+ * the match card or if it is a wild card
+ * @param c_to_place the card to check
+ * @param c_to_match the card to check against for match
+ * @returns true iff the color or value matches the match card, or if the color is wild.
+ * false otherwise.
+ */
+export function matches_card_or_wild(c_to_place: Card, c_to_match: Card): boolean{
+    return (color_of_card(c_to_place) === color_of_card(c_to_match)) ||
+           (value_of_card(c_to_place) === value_of_card(c_to_match)) ||
+           (color_of_card(c_to_place) === "wild");
 }
-
 
 /**
  * removes a card from a hand
@@ -53,6 +70,21 @@ export function delete_card_from_hand(card: Card, hand: Hand): boolean {
         return false;
     }
 }
+/**
+ * retrives card from a hand
+ * @param tag the tag of the card to get
+ * @param hand the hand to get card from
+ * @precondition the card represented by tag must be in hand
+ * @returns the retreived card from hand
+ */
+export function get_card_from_hand(tag: string, hand: Hand) {
+    if(!is_null(hand[tag])){
+        return head(hand[tag]);
+    } else {
+        throw new Error("card not in hand!");
+    }
+}
+
 /**
  * adds a card to a hand
  * @param card the card to add to the hand
@@ -118,10 +150,11 @@ export function add_card_to_gp(card: Card, game_pile: GamePile): NonEmptyStack<C
  * current_card(add_card_to_gp(make_card("red", 3), empty_s<Card>()));
  * @param gp the game pile which is a stack
  * @complexity Theta(1) time complexity
+ * @precondition the game pile may not be empty.
  * @returns the card on top of the stack, last played card.
  * returns false if game pile is empty.
  */
-export function current_card(gp: GamePile): Card  {
+export function current_top_card(gp: GamePile): Card  {
     if (!is_empty_s(gp)) {
         return top(gp);
     } else {
@@ -321,7 +354,7 @@ function welcome_screen(): boolean {
  * @returns a game pile where last placed card is a number card.
  */
 
-export function start_card(gp: GamePile, deck: Deck): GamePile {
+export function starting_game_pile(gp: GamePile, deck: Deck): GamePile {
     while(true){
         if(is_empty_q(deck)){
             gp = refill_deck_from_gp(gp, deck);
@@ -337,6 +370,46 @@ export function start_card(gp: GamePile, deck: Deck): GamePile {
             if(typeof value_of_card(drawn_card) === "number"){
                 return gp;
             }
+        }
+    }
+}
+/**
+ * a help interface for player
+ * @param game_state the overall state of the game
+ * @param player_input the input string
+ */
+export function help_ops_for_player(game_state: Game_state, player_input: string): void{
+    if(player_input === "display") {
+        display_hand(game_state.all_hands.player_hand);
+    } else if(player_input === "quit"){
+        game_state.is_game_over = true;
+    } else if(player_input === "draw"){
+        const drawn_card = draw_card_from_deck(game_state.game_deck);
+        add_card_to_hand(drawn_card, game_state.all_hands.player_hand);
+        console.log(`Added card: ${drawn_card.tag} to hand`);
+    } else {
+        console.log("To view your cards enter: display");
+        console.log("To quit game enter: q");
+        console.log("To draw card enter: draw");
+        console.log("to view help commands again enter: help");
+    }
+}
+/**
+ * handles picking new color after wild card.
+ * @returns the inputed string from the prompt, which is the new color
+ */
+
+export function pick_new_color_wild(): string {
+    const valid_colors = ["red", "green", "yellow", "blue"];
+    const prompt = promptSync();
+    console.log("Wild card!")
+    while(true){
+        const player_col_pick = prompt("Pick a new color: ");
+        if(valid_colors.includes(player_col_pick)){
+            console.log(`\nNew color is: ${player_col_pick}\n`);
+            return player_col_pick;
+        } else {
+            console.log(`Invalid color, allowed colors are: ${valid_colors}`);
         }
     }
 }
@@ -356,15 +429,143 @@ function game_rule() {
     console.log("The goal of the game is to get rid of all your cards before the computer");
     console.log("\n- To place a card: enter the color and value of the chosen card.");
     console.log("example: 'red 7' or 'wild +4' or 'yellow skip");
-    console.log("- To see your hand of UNO cards: display");
-    console.log("- To draw a card from deck: draw");
+    console.log("- To see your hand of UNO cards enter: display");
+    console.log("- To draw a card from deck enter : draw");
     console.log("- to quit the game enter: quit");
     console.log("\nGood luck\n");
 }
+/**
+ * checks if game is to be continued or to exit the game
+ * @param game_state the overall state of the game, including player hands
+ * @returns true if player or ai hand has length 0,
+ * or if the game_over component in game state is true. false otherwise.
+ */
+function game_conditional(game_state: Game_state): boolean{
+    return !game_state.is_game_over ||
+    (!is_winning(game_state.all_hands.ai_hand) &&
+    !is_winning(game_state.all_hands.player_hand));
+}
+
+//simple way to reverse current turn
+function inverse_turn(gs: Game_state){
+    if(gs.current_turn === "player"){
+        return "ai"
+    } else {
+        return "player"
+    }
+}
+
+/**
+ * makes a play in UNO for the player, no turn change
+ * after placing cards with value: "skip", "reverse", "+2" or "+4"
+ * @param game_state the overall state of the game
+ * @param input_str a string that represent what card to pick or help options
+ */
+function make_play(game_state: Game_state, input_str: string): void {
+    const valid_inputs = ["display", "quit", "draw", "help"];
+
+
+
+    if(valid_inputs.includes(input_str)){
+        help_ops_for_player(game_state, input_str);
+
+    } else if(is_valid_input(input_str) && is_card_in_hand(game_state.all_hands.player_hand, input_str)){
+    //input card is valid, do actual game logic:
+    const picked_card: Card = get_card_from_hand(input_str, game_state.all_hands.player_hand);
+    game_state.game_pile = add_card_to_gp(picked_card, game_state.game_pile);
+    delete_card_from_hand(picked_card, game_state.all_hands.player_hand);
+
+    if(picked_card.CI.color === "wild" && picked_card.CI.value === "+4"){
+        if(game_state.current_turn === "player"){
+            const new_col = pick_new_color_wild();
+            game_state.current_color = new_col;
+            draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.ai_hand, picked_card);
+            console.log("ai draws 4");
+        } else {
+            const random_num_ai = random_num(0, 3);
+            const random_col = ["red", "green", "yellow", "blue"][random_num_ai];
+            game_state.current_color = random_col;
+            console.log(`${game_state.current_turn} picks new color ${random_col}`);
+            console.log("player draws 4");
+            draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.player_hand, picked_card);
+        }
+
+    } else if (picked_card.CI.color === "wild" && picked_card.CI.value === "new-color"){
+        if(game_state.current_turn === "player"){
+            const new_col = pick_new_color_wild();
+            game_state.current_color = new_col;
+            game_state.current_turn = "ai";
+        } else {
+            const random_col = ["red", "green", "yellow", "blue"][random_num(0, 3)]
+            game_state.current_color = random_col;
+            console.log(`${game_state.current_turn} picks new color ${random_col}`);
+            game_state.current_turn = "player";
+        }
+
+    } else if(picked_card.CI.value === "+2") {
+        if(game_state.current_turn === "player"){
+            console.log("ai draw 2 cards");
+            draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.ai_hand, picked_card);
+        } else {
+            console.log("player draw 2 cards");
+            draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.player_hand, picked_card);
+        }
+
+    } else if(picked_card.CI.value === "skip" || picked_card.CI.value === "reverse"){
+        if(game_state.current_turn === "player"){
+            console.log("ai turn skipped!");
+        } else {
+            console.log("player turn skipped");
+        }
+
+    } else {
+        if(game_state.current_turn === "player"){
+            game_state.current_turn = "ai";
+        } else {
+            game_state.current_turn = "player";
+        }
+    }
+
+    } else {
+        if(is_valid_input(input_str)){
+            console.log(`you don't have ${input_str} in your hand`);
+        } else {
+            console.log("Invalid input, try again");
+        }
+    }
+}
+// const p_hand: Hand = {}
+// add_card_to_hand(make_card("blue", 1), p_hand);
+// add_card_to_hand(make_card("red", 6), p_hand);
+// add_card_to_hand(make_card("green", "+2"), p_hand);
+// add_card_to_hand(make_card("yellow", "skip"), p_hand);
+// add_card_to_hand(make_card("blue", "reverse"), p_hand);
+// add_card_to_hand(make_card("blue", 0), p_hand);
+// add_card_to_hand(make_card("red", 1), p_hand);
+// add_card_to_hand(make_card("wild", "+4"), p_hand);
+// add_card_to_hand(make_card("blue", 9), p_hand);
+// add_card_to_hand(make_card("wild", "new-color"), p_hand);
+
+
+
+// const gs: Game_state = {all_hands: {player_hand: p_hand,
+//                                     ai_hand: {}},
+//                         game_deck: make_deck(),
+//                         game_pile: make_gp(),
+//                         current_turn: "player",
+//                         is_game_over: false
+//                         };
+// //testing input
+
+
+
+// console.log(make_play(gs, "red +2"));
+//console.log(get_card_from_hand("red 6", gs.all_hands.player_hand));
+
+
 
 function game_run() {
-    //to check if valid input val_inp.includes(input) returns bool
-    const valid_inputs = ["y", "n", "display", "quit", "draw", "help"];
+    const valid_help_inputs = ["display", "quit", "draw", "help"];
     if(welcome_screen()){
         game_rule();
         const game_state: Game_state = {
@@ -374,69 +575,80 @@ function game_run() {
             current_turn: "player",
             is_game_over: false
         };
+
         start_of_game_dist(game_state.all_hands, game_state.game_deck);
         console.log("These are your cards: ", display_hand(game_state.all_hands.player_hand));
-        console.log("The top card is: ");
-        game_state.game_pile = start_card(game_state.game_pile, game_state.game_deck);
+        game_state.game_pile = starting_game_pile(game_state.game_pile, game_state.game_deck);
 
-        if(!is_empty_s(game_state.game_pile)){
-            console.log(current_card(game_state.game_pile).tag);
-        } else {}
+        //ends when there is hand of length 0 or is game over = true
+        while((!is_winning(game_state.all_hands.ai_hand) &&
+            !is_winning(game_state.all_hands.player_hand))){
 
+            const current_card = current_top_card(game_state.game_pile);
+            game_state.current_color = current_card.CI.color;
+            console.log("The top card is: ", current_card.tag);
+            const p_hand_len_before = display_hand(game_state.all_hands.player_hand).length;
 
-        while(!game_state.is_game_over ||
-              (!is_winning(game_state.all_hands.ai_hand) &&
-              !is_winning(game_state.all_hands.player_hand))){
+            if(game_state.current_turn === "player"){
+                const prompt = promptSync();
+                const player_input = prompt("Pick a card: ");
+                make_play(game_state, player_input);
+                //if player placed no card.
+                // const draw_1_card = draw_card_from_deck(game_state.game_deck);
+                // add_card_to_hand(draw_1_card, game_state.all_hands.player_hand);
+                // console.log("player had no matching, draws one card: ", draw_1_card.tag);
+            } else if(game_state.current_turn === "ai"){
+                //ai plays
+                //AI_match_col_or_val(game_state.all_hands.ai_hand, current_card)
+                if(can_ai_match(game_state.all_hands.ai_hand, current_card)){
+                    const ai_play: Card = ai_picked_card(game_state.all_hands.ai_hand, current_card);
+                    make_play(game_state, ai_play.tag);
+                } else {
+                    console.log("ai has no matching card, draws a new card from deck.");
+                    dist_cards(game_state.game_deck, game_state.all_hands.ai_hand, 1);
+                    game_state.current_turn = "player";
+                }
 
-            const prompt = promptSync();
-            const player_input = prompt("Pick a card: ");
+            } else {} //empty else to handle skip card.
 
-            if(valid_inputs.includes(player_input)){
-                //handle_alts(game_state, player_input): boolean;
-                //if true keep playing game,
-                //if false exit the while loop.
-
-
-            } else if(is_valid_input(player_input) &&
-            is_card_in_hand((game_state.all_hands.player_hand),player_input)) {
-
-                const card_to_place = head(game_state.all_hands.player_hand[player_input]);
-
-                //place card on gamepile and remove from player hand
-                //if wild card; input choose color
-                //change turn to ai
-                //continiue game woth ai plays
-
-
-
-            } else {
-                //no change in gamestate, input loop again
-                console.log("invalid input, try again.");
-            }
-
-
-
-        }
+        } //end of while loop
 
         if(is_winning(game_state.all_hands.player_hand)){
             console.log("Congratulations, you beat the AI!");
         } else {
-            console.log("You lost!");
+            console.log("You lost, better luck next time!");
         }
+        //ask for second game.
         const p_g_prompt = promptSync();
-        const play_again = p_g_prompt("Do you want to play another game of UNO? [y/n]\n");
-
+        const play_again = p_g_prompt("Do you want to play another game of UNO? [y / any other key]\n");
         if(play_again === "y"){
-            game_run();
+            //game_run();
         } else {
             console.log("No worries, have a good day!\n");
         }
-
-
-    } else {}
-
+    } else {
+        console.log("No worries, have a good day!");
+    }
 }
 
 game_run();
-//vad kvar:
-//
+// //vad kvar:
+// //
+
+// if(game_state.current_turn === "player"){
+//     const prompt = promptSync();
+//     const player_input = prompt("Pick a card: ");
+//     make_play(game_state, player_input);
+//     const p_hand_len_after = display_hand(game_state.all_hands.player_hand).length;
+//     //if player placed no card.
+//     if(p_hand_len_before === p_hand_len_after){
+//         const draw_1_card = draw_card_from_deck(game_state.game_deck);
+//         add_card_to_hand(draw_1_card, game_state.all_hands.player_hand);
+//         console.log("player had no matching, draws one card: ", draw_1_card.tag);
+//         if(matches_card_or_wild(draw_1_card, current_card)){
+//             make_play(game_state, draw_1_card.tag);
+//             game_state.current_turn = "ai";
+//         } else {
+//             game_state.current_turn = "ai";
+//         }
+//     } else {}

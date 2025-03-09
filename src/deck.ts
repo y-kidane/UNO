@@ -122,3 +122,9 @@ export function make_deck(): Deck {
     shuffle(deck_q);
     return deck_q;
 }
+
+export function draw_card_from_deck(deck: Deck){
+    const drawn_c = q_head(deck);
+    dequeue(deck);
+    return drawn_c;
+}

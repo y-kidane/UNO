@@ -4,7 +4,7 @@ import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle,
 
 import {
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
-    current_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno,
+    current_top_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno,
     color_of_card,
     value_of_card
 } from "./game";
@@ -74,16 +74,30 @@ export function AI_match_col_or_val(hand: Hand, current_card: Card): Array<Card>
     const arr_of_cards: Card[] = hand_to_card_arr(hand);
     const curr_val: Value = current_card.CI.value;
     const curr_col: Color = current_card.CI.color;
-    let result_card_or_bool: Array<Card> = []
+    let res_card_arr: Array<Card> = []
     for(let i = 0; i < arr_of_cards.length; i++){
         if(color_of_card(arr_of_cards[i]) === curr_col ||
            value_of_card(arr_of_cards[i]) === curr_val ||
            color_of_card(arr_of_cards[i]) === "wild") {
-            result_card_or_bool[0] = arr_of_cards[i];
+            res_card_arr[0] = arr_of_cards[i];
             break; //first matching card gets picked
         } else {}
     }
-    return result_card_or_bool
+    return res_card_arr
 }
 
-//function for picking color after placing wild card. 
+export function can_ai_match(hand: Hand, current_card: Card){
+    const arr_of_cards = AI_match_col_or_val(hand, current_card);
+    return arr_of_cards.length > 0;
+}
+
+export function ai_picked_card(hand: Hand, current_card: Card){
+    const arr_of_cards = AI_match_col_or_val(hand, current_card);
+    if(can_ai_match(hand, current_card)){
+        return arr_of_cards[0];
+    } else {
+        throw new Error("ai cannot match card")
+    }
+}
+
+//function for picking color after placing wild card.
