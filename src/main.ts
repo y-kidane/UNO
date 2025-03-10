@@ -19,7 +19,7 @@ import {
     color_of_card, value_of_card, current_top_card,
     make_gp, length_of_hand, is_val_num_or_str,
     game_conditional, next_person_turn, matches_card_or_wild,
-    } from "./game";
+    } from "./game-comp";
 
 import PromptSync = require ("prompt-sync");
 const prompt: PromptSync.Prompt = PromptSync({sigint:true});
@@ -102,7 +102,7 @@ export function help_ops_for_player(game_state: Game_state, player_input: string
  * @returns the inputed string from the prompt, which is the new color
  */
 
-export function pick_new_color_wild(game_state: Game_state): string | undefined {
+export function pick_new_color_wild(game_state: Game_state): string  {
     const valid_colors = ["red", "green", "yellow", "blue"];
     console.log("Wild card!")
     while(true){
@@ -110,14 +110,14 @@ export function pick_new_color_wild(game_state: Game_state): string | undefined 
         if(valid_colors.includes(player_col_pick)){
             console.log(`\nNew color is: ${player_col_pick}\n`);
             return player_col_pick;
-        } else if (player_col_pick === "quit") {
-            game_state.is_game_over = true;
-            break;
         } else {
             console.log(`Invalid color, allowed colors are: ${valid_colors}\n`);
         }
     }
 }
+// else if (player_col_pick === "quit") {
+//     game_state.is_game_over = true;
+//     break;
 
 function game_rule() {
     console.log("\nHow to play: \n");
@@ -130,6 +130,10 @@ function game_rule() {
     console.log("\nGood luck\n");
 }
 
+export function matches_general(game_state: Game_state, pl_input: string, curr_card: Card){
+    const comp_card: Card = get_card_from_hand(pl_input, game_state.all_hands.player_hand);
+    return matches_card_or_wild(comp_card, curr_card) || color_of_card(comp_card) === game_state.current_color;
+}
 
 /**
  * handling player inputs and executing card effects
@@ -141,7 +145,7 @@ export function player_make_play(game_state: Game_state, player_input: string, c
 
     if(is_valid_input(player_input)
         && is_card_in_hand(game_state.all_hands.player_hand, player_input)
-        && matches_card_or_wild(get_card_from_hand(player_input, game_state.all_hands.player_hand), curr_card)) {
+        && matches_general(game_state, player_input, curr_card)) {
 
         const picked_card: Card = get_card_from_hand(player_input, game_state.all_hands.player_hand);
         game_state.game_pile = add_card_to_gp(picked_card, game_state.game_pile);
@@ -187,8 +191,8 @@ export function player_make_play(game_state: Game_state, player_input: string, c
  */
 export function draw_another(gs: Game_state, curr_card: Card): void {
     while(true) {
-        const input_str = prompt("Do you want to draw a card? [y/n]: ");
-        if(input_str === "y"){
+        const input_str = prompt("Do you want to draw card, pick new from hand or skip turn? [draw/pick/skip]: ");
+        if(input_str === "draw"){
             const new_c = draw_card_from_deck(gs.game_deck);
             add_card_to_hand(new_c, gs.all_hands.player_hand);
             if(matches_card_or_wild(new_c, curr_card)){
@@ -200,13 +204,17 @@ export function draw_another(gs: Game_state, curr_card: Card): void {
                 gs.current_turn = "ai";
                 break;
             }
-        } else if(input_str === "n"){
+        } else if(input_str === "pick"){
+            const new_pick_from_hand = prompt("Pick a card: ");
+            player_make_play(gs, new_pick_from_hand, curr_card);
+            break;
+        } else if(input_str === "skip"){
             console.log("\nSkipped turn, draw 1 card as penalty\n");
             add_card_to_hand(draw_card_from_deck(gs.game_deck), gs.all_hands.player_hand);
             gs.current_turn = "ai"
             break;
-        } else {
-            console.log("\ninvalid input, you can only pick [y/n]\n")
+        }else {
+            console.log("\ninvalid input, you can only pick [draw/pick]\n")
         }
     }
 }
@@ -247,7 +255,9 @@ function game_run() {
             } else {}
             const current_card = current_top_card(game_state.game_pile);
             game_state.current_color = color_of_card(current_card);
+            console.log("------------------------------------------------------------------------")
             console.log(`\nDiscard pile: |${current_card.tag}|`);
+            console.log("current color: ", game_state.current_color);
 
             if(game_state.current_turn === "player"){//user play
                 console.log("\nyour current hand is: ")
@@ -313,4 +323,4 @@ function main(){
     game_run();
 }
 
-//main();
+main();

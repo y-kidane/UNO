@@ -5,8 +5,8 @@ import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle,
 import {
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
     current_top_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno,
-    color_of_card, value_of_card, get_card_from_hand, matches_card_or_wild, 
-} from "./game";
+    color_of_card, value_of_card, get_card_from_hand, matches_card_or_wild,
+} from "./game-comp";
 
 import { empty as empty_q, head as q_head, dequeue } from "../lib/queue_array";
 
