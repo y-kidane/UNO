@@ -190,7 +190,8 @@ export function player_make_play(game_state: Game_state, player_input: string, c
  * @param curr_card the card to match against
  */
 export function draw_another(gs: Game_state, curr_card: Card): void {
-    while(true) {
+    const valid_help_inputs = ["display", "quit", "help" , "color", ""]
+    while(true && !gs.is_game_over) {
         const input_str = prompt("Do you want to draw card, pick new from hand or skip turn? [draw/pick/skip]: ");
         if(input_str === "draw"){
             const new_c = draw_card_from_deck(gs.game_deck);
@@ -213,8 +214,10 @@ export function draw_another(gs: Game_state, curr_card: Card): void {
             add_card_to_hand(draw_card_from_deck(gs.game_deck), gs.all_hands.player_hand);
             gs.current_turn = "ai"
             break;
-        }else {
-            console.log("\ninvalid input, you can only pick [draw/pick]\n")
+        } else if(valid_help_inputs.includes(input_str)) {
+            help_ops_for_player(gs, input_str, curr_card);
+        } else {
+            console.log("\ninvalid input, you can only pick [draw/pick/skip]\n")
         }
     }
 }
