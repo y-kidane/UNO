@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.42% </span>
+                <span class="strong">80.55% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/28</span>
+                <span class='fraction'>29/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>5/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.15% </span>
+                <span class="strong">79.41% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/26</span>
+                <span class='fraction'>27/34</span>
             </div>
         
             
@@ -136,7 +136,24 @@
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -209,11 +226,26 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AI_tags_in_arr = AI_tags_in_arr;
 exports.hand_to_card_arr = hand_to_card_arr;
 exports.AI_match_col_or_val = AI_match_col_or_val;
+exports.can_ai_match = can_ai_match;
+exports.ai_picked_card = ai_picked_card;
 var game_1 = require("./game");
 var list_1 = require("../lib/list");
 //here we make the algo for the AI/computer (vs player)
@@ -269,19 +301,32 @@ function AI_match_col_or_val(hand, current_card) {
     var arr_of_cards = hand_to_card_arr(hand);
     var curr_val = current_card.CI.value;
     var curr_col = current_card.CI.color;
-    var result_card_or_bool = [];
+    var res_card_arr = [];
     for (var i = 0; i &lt; arr_of_cards.length; i++) {
         if ((0, game_1.color_of_card)(arr_of_cards[i]) === curr_col ||
             (0, game_1.value_of_card)(arr_of_cards[i]) === curr_val ||
             (0, game_1.color_of_card)(arr_of_cards[i]) === "wild") {
-            result_card_or_bool[0] = arr_of_cards[i];
+            res_card_arr[0] = arr_of_cards[i];
             break; //first matching card gets picked
         }
         else { }
     }
-    return result_card_or_bool;
+    return res_card_arr;
 }
-//function for picking color after placing wild card. 
+function <span class="fstat-no" title="function not covered" >can_ai_match(</span>hand, current_card) {
+    var arr_of_cards = <span class="cstat-no" title="statement not covered" >AI_match_col_or_val(hand, current_card);</span>
+<span class="cstat-no" title="statement not covered" >    return arr_of_cards.length &gt; 0;</span>
+}
+function <span class="fstat-no" title="function not covered" >ai_picked_card(</span>hand, current_card) {
+    var arr_of_cards = <span class="cstat-no" title="statement not covered" >AI_match_col_or_val(hand, current_card);</span>
+<span class="cstat-no" title="statement not covered" >    if (can_ai_match(hand, current_card)) {</span>
+<span class="cstat-no" title="statement not covered" >        return arr_of_cards[0];</span>
+    }
+    else {
+<span class="cstat-no" title="statement not covered" >        throw new Error("ai cannot match card");</span>
+    }
+}
+//function for picking color after placing wild card.
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -289,7 +334,7 @@ function AI_match_col_or_val(hand, current_card) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-08T10:21:02.547Z
+                at 2025-03-10T15:32:10.172Z
             </div>
         <script src="../prettify.js"></script>
         <script>

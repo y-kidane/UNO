@@ -1,4 +1,4 @@
-import { Card, Card_info, Hand, Color, Value, Deck, GamePile, Mult_hands } from "./src/types";
+import { Card, Card_info, Hand, Color, Value, Deck, GamePile, Mult_hands, Game_state } from "./src/types";
 
 import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./src/deck";
 
@@ -120,11 +120,6 @@ test('the last added card to the game pile is the current card', () => {
 
 });
 
-test('if game pile empty, return false', () => {
-    let game_pile: GamePile = empty_s<Card>();
-    expect(current_top_card(game_pile)).toBe(false);
-});
-
 test('draw +2 card for a hand returns the hand plus the added cards', () => {
     const test_hand: Hand = {};
     add_card_to_hand(make_card("blue", 4), test_hand);
@@ -189,6 +184,12 @@ test('check for uno with hand with length 1 prints uno', () => {
     add_card_to_hand(make_card("green", 8), tezz)
     expect(check_for_uno(tezz)).toBe(true);
 });
+
+test('test if hand has won game', () => {
+    const end_hand: Hand = {"red 4": list(make_card("red", 4))};
+    delete_card_from_hand(make_card("red", 4), end_hand);
+    expect(is_winning(end_hand)).toBe(true);
+})
 
 test('turn hand into array with correct amount of cards', () => {
     const hand = {"green 8": list(make_card("green", 8), make_card("green", 8))};

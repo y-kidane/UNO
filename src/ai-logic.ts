@@ -1,12 +1,11 @@
-import { Card, Card_info, Hand, Color, Value, Deck, GamePile } from "./types";
+import { Card, Card_info, Hand, Color, Value, Deck, GamePile, Game_state } from "./types";
 
 import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./deck";
 
 import {
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
     current_top_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp, display_hand, check_for_uno,
-    color_of_card,
-    value_of_card
+    color_of_card, value_of_card, get_card_from_hand, matches_card_or_wild, 
 } from "./game";
 
 import { empty as empty_q, head as q_head, dequeue } from "../lib/queue_array";
@@ -101,3 +100,50 @@ export function ai_picked_card(hand: Hand, current_card: Card){
 }
 
 //function for picking color after placing wild card.
+/**
+ * to handle the input of the ai
+ * @param game_state overall game state
+ * @param ai_input the tag string which the ai has picked
+ * @param curr_card the card to match with
+ */
+
+export function ai_make_play(game_state: Game_state, ai_input: string, curr_card: Card): void {
+    const ai_picked_card = get_card_from_hand(ai_input, game_state.all_hands.ai_hand);
+    game_state.game_pile = add_card_to_gp(ai_picked_card, game_state.game_pile);
+    delete_card_from_hand(ai_picked_card, game_state.all_hands.ai_hand);
+
+    if(color_of_card(ai_picked_card) === "wild" && value_of_card(ai_picked_card) === "+4"){
+            draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.player_hand, ai_picked_card);
+            const random_num_ai = random_num(0, 3);
+            const random_col = ["red", "green", "yellow", "blue"][random_num_ai];
+            console.log("\nAi placed |wild +4|, player draw 4 and skip turn");
+            game_state.current_color = random_col;
+            console.log("\nNew color is: ", random_col);
+            game_state.current_turn = "ai";
+
+    } else if (color_of_card(ai_picked_card) === "wild" && value_of_card(ai_picked_card) === "new-color"){
+            const random_num_ai = random_num(0, 3);
+            const random_col = ["red", "green", "yellow", "blue"][random_num_ai];
+            game_state.current_color = random_col;
+            console.log("\nAi placed |wild new-color| card, new color is: ", random_col);
+            game_state.current_turn = "player";
+
+    } else if(value_of_card(ai_picked_card) === "+2" && matches_card_or_wild(ai_picked_card, curr_card)){
+            console.log(`\nAI placed |${ai_picked_card.tag}|, Player draws 2 and turn skipped\n`);
+            draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.player_hand, ai_picked_card);
+            game_state.current_color = color_of_card(ai_picked_card);
+            game_state.current_turn = "ai";
+
+    } else if((value_of_card(ai_picked_card) === "skip" || value_of_card(ai_picked_card) === "reverse")
+               && matches_card_or_wild(ai_picked_card, curr_card)) {
+            game_state.current_color = color_of_card(ai_picked_card);
+            console.log(`\nAI placed |${ai_picked_card.tag}|, Player turn skipped\n`);
+            game_state.current_turn = "ai";
+
+    } else if(matches_card_or_wild(ai_picked_card, curr_card)) {
+            game_state.current_color = color_of_card(ai_picked_card);
+            console.log(`AI picks: |${ai_input}|`);
+            game_state.current_turn = "player";
+    } else {}
+
+}
