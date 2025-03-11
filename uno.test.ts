@@ -1,20 +1,22 @@
 import { Card, Card_info, Hand, Color, Value, Deck, GamePile, Mult_hands, Game_state } from "./src/types";
 
-import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num } from "./src/deck";
+import { make_card, many_enques, make_color, make_wild_card, make_deck, shuffle, random_num, draw_card_from_deck } from "./src/deck";
 
 import {
     delete_card_from_hand, add_card_to_hand, dist_cards, add_card_to_gp,
     current_top_card, draw_plus_2_or_4, length_of_hand, refill_deck_from_gp,
-    display_hand, check_for_uno, is_winning, start_of_game_dist
+    display_hand, check_for_uno, is_winning, start_of_game_dist,
+    make_gp, color_of_card, value_of_card, starting_game_pile, is_valid_input
 } from "./src/game-comp";
 
 import { empty as empty_q, head as q_head, dequeue } from "./lib/queue_array";
 
 import { list, length as list_length, head, is_null } from "./lib/list";
 
-import { empty as empty_s } from "./lib/stack";
+import { empty as empty_s, is_empty } from "./lib/stack";
 
-import { AI_tags_in_arr, hand_to_card_arr, AI_match_col_or_val } from "./src/ai-logic";
+import { AI_tags_in_arr, hand_to_card_arr, AI_match_col_or_val, can_ai_match, ai_picked_card } from "./src/ai-logic";
+
 
 //testing deck.ts
 test('testing if make_card function works', () => {
@@ -221,4 +223,65 @@ test('start of game distribute 7 cards each', () => {
     const hand_len_ai = length_of_hand(handz.ai_hand);
     expect(hand_len_pl).toBe(7);
     expect(hand_len_ai).toBe(7);
+});
+
+test('hand turns into card array', () => {
+    const hand_test: Hand = {};
+    add_card_to_hand(make_card("red", 4), hand_test);
+    add_card_to_hand(make_card("blue", 4), hand_test);
+    add_card_to_hand(make_card("green", "reverse"), hand_test);
+    add_card_to_hand(make_card("yellow", 9), hand_test);
+    const result_arr = ["red 4", "blue 4", "green reverse", "yellow 9"];
+    expect(display_hand(hand_test)).toStrictEqual(result_arr);
+    expect(AI_tags_in_arr(hand_test)).toStrictEqual(result_arr);
+
+});
+
+test('ai can match card to current card', () => {
+    const hand_test: Hand = {};
+    add_card_to_hand(make_card("red", 0), hand_test);
+    add_card_to_hand(make_card("blue", 4), hand_test);
+    expect(can_ai_match(hand_test, make_card("blue", "reverse"))).toBe(true);
+    expect(can_ai_match(hand_test, make_card("green", 4))).toBe(true);
+    expect(can_ai_match(hand_test, make_card("green", 2))).toBe(false);
+
+});
+
+test('ai picks matching card', () => {
+    const hand_test: Hand = {};
+    add_card_to_hand(make_card("red", 0), hand_test);
+    add_card_to_hand(make_card("blue", 4), hand_test);
+    expect(ai_picked_card(hand_test, make_card("yellow", 4))).toStrictEqual(make_card("blue", 4));
+});
+
+
+test('starting gamepile has a number card first', () => {
+    let game_pile = make_gp();
+    const deck = make_deck();
+    const start_pile: GamePile = starting_game_pile(game_pile, deck);
+    const first_card: Card = current_top_card(start_pile);
+    expect(typeof value_of_card(first_card)).toBe("number");
+});
+
+test('selector functions for cards work', () => {
+    const test_card1 = make_card("yellow", 3);
+    const test_card2 = make_card("wild", "+4");
+    expect(color_of_card(test_card1)).toBe("yellow");
+    expect(value_of_card(test_card1)).toBe(3);
+    expect(color_of_card(test_card2)).toBe("wild");
+    expect(value_of_card(test_card2)).toBe("+4");
+
+});
+
+test('input string checker works', () => {
+    const str1 = "red       4";
+    const str2 = "orange 0";
+    const str3 = "4 red";
+    const str4 = " ";
+    const str5 = "";
+    expect(is_valid_input(str1)).toBe(true);
+    expect(is_valid_input(str2)).toBe(false);
+    expect(is_valid_input(str3)).toBe(false);
+    expect(is_valid_input(str4)).toBe(false);
+    expect(is_valid_input(str5)).toBe(false);
 });
