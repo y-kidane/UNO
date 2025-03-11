@@ -110,9 +110,9 @@ export function ai_make_play(game_state: Game_state, ai_input: string, curr_card
 
     } else if (color_of_card(ai_picked_card) === "wild" && value_of_card(ai_picked_card) === "new-color"){
             const random_num_ai = random_num(0, 3);
-            const random_col = ["red", "green", "yellow", "blue"][random_num_ai];
-            game_state.current_color = random_col;
-            console.log("\nAi placed |wild new-color| card, new color is: ", random_col);
+            const random_new_color = ["red", "green", "yellow", "blue"][random_num_ai];
+            game_state.current_color = random_new_color;
+            console.log("\nAi placed |wild new-color| card, new color is: ", random_new_color);
             game_state.current_turn = "player";
 
     } else if(value_of_card(ai_picked_card) === "+2" && matches_card_or_wild(ai_picked_card, curr_card)){

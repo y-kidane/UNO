@@ -49,7 +49,7 @@ export function game_conditional(game_state: Game_state): boolean {
 function welcome_screen(): boolean {
     console.log("\nWelcome to UNO. Would you like to play a game against the AI? [y/n]\n ");
     while(true){
-        const user_input_start = prompt("Answer: ");
+        const user_input_start = prompt("Answer: ").trim();
         if(user_input_start === "y"){
             return true;
         } else if(user_input_start === "n"){
@@ -96,7 +96,7 @@ export function pick_new_color_wild(game_state: Game_state): string  {
     const valid_colors = ["red", "green", "yellow", "blue"];
     console.log("Wild card!")
     while(true){
-        const player_col_pick = prompt("Pick a new color: ");
+        const player_col_pick = prompt("Pick a new color: ").trim();
         if(valid_colors.includes(player_col_pick)){
             game_state.current_color = player_col_pick;
             console.log(`\nNew color is: ${player_col_pick}\n`);
@@ -191,7 +191,7 @@ export function player_make_play(game_state: Game_state, player_input: string, c
 export function draw_another(gs: Game_state, curr_card: Card): void {
     const valid_help_inputs = ["display", "quit", "help" , "color", ""]
     while(true && !gs.is_game_over) {
-        const input_str = prompt("Do you want to draw card, pick new from hand or skip turn? [draw/pick/skip]: ");
+        const input_str = prompt("Do you want to draw card, pick new from hand or skip turn? [draw/pick/skip]: ").trim().replace(/\s+/g, " ");
             if(valid_help_inputs.includes(input_str)) {
             help_ops_for_player(gs, input_str, curr_card);
             } else if(input_str === "draw"){
@@ -207,7 +207,7 @@ export function draw_another(gs: Game_state, curr_card: Card): void {
                 break;
             }
         } else if(input_str === "pick"){
-            const new_pick_from_hand = prompt("Pick a card: ");
+            const new_pick_from_hand = prompt("Pick a card: ").trim().replace(/\s+/g, " ");
             player_make_play(gs, new_pick_from_hand, curr_card);
             break;
         } else if(input_str === "skip"){
@@ -236,7 +236,7 @@ export function make_play(game_state: Game_state, input_str: string, curr_card: 
 
 
 function game_run() {
-    const valid_help_inputs = ["display", "quit", "help", "no card" , "color", ""];
+    const valid_help_inputs = ["display", "quit", "help", "no card" , "color"];
     if(welcome_screen()){
         game_rule();
         const game_state: Game_state = {
@@ -249,6 +249,7 @@ function game_run() {
 
         start_of_game_dist(game_state.all_hands, game_state.game_deck);
         game_state.game_pile = starting_game_pile(game_state.game_pile, game_state.game_deck);
+        game_state.current_color = current_top_card(game_state.game_pile).CI.color;
 
         //ends when there is hand of length 0 or is game over = true
         while(game_conditional(game_state)){
@@ -257,14 +258,13 @@ function game_run() {
             } else {}
 
             const current_card = current_top_card(game_state.game_pile);
-            game_state.current_color = color_of_card(current_card);
             console.log("------------------------------------------------------------------------")
             console.log(`\nDiscard pile: |${current_card.tag}| \nCurrent color: ${game_state.current_color}`);
 
             if(game_state.current_turn === "player"){
                 console.log("\nyour current hand is: ");
                 console.log(display_hand(game_state.all_hands.player_hand));
-                const player_input = prompt("Pick a card: ");
+                const player_input = prompt("Pick a card: ").trim().replace(/\s+/g, " ");
 
                 if(valid_help_inputs.includes(player_input)
                     || player_input.trim() === ""
