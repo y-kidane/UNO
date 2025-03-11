@@ -8,6 +8,7 @@ import {
 } from "./game-comp";
 
 import { head, is_null, List, tail } from "../lib/list";
+import { matches_general } from "./main";
 
 //here we make the algorithm for the AI/computer.
 
@@ -64,7 +65,7 @@ export function AI_match_col_or_val(hand: Hand, current_card: Card): Array<Card>
 //returns true if ai can match current card, otherwise empty
 export function can_ai_match(hand: Hand, current_card: Card): boolean {
     const arr_of_cards = AI_match_col_or_val(hand, current_card);
-    return arr_of_cards.length > 0;
+    return arr_of_cards[0] !== undefined;
 }
 
 /**
@@ -77,7 +78,7 @@ export function can_ai_match(hand: Hand, current_card: Card): boolean {
  */
 export function ai_picked_card(hand: Hand, current_card: Card){
     const arr_of_cards = AI_match_col_or_val(hand, current_card);
-    if(can_ai_match(hand, current_card)){
+    if(can_ai_match(hand, current_card) && arr_of_cards[0] !== undefined){
         return arr_of_cards[0];
     } else {
         throw new Error("ai cannot match card")
@@ -115,19 +116,22 @@ export function ai_make_play(game_state: Game_state, ai_input: string, curr_card
             console.log("\nAi placed |wild new-color| card, new color is: ", random_new_color);
             game_state.current_turn = "player";
 
-    } else if(value_of_card(ai_picked_card) === "+2" && matches_card_or_wild(ai_picked_card, curr_card)){
+    } else if(value_of_card(ai_picked_card) === "+2" && (matches_card_or_wild(ai_picked_card, curr_card)
+              || matches_general(game_state, ai_picked_card.tag, curr_card))){
             console.log(`\nAI placed |${ai_picked_card.tag}|, Player draws 2 and turn skipped\n`);
             draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.player_hand, ai_picked_card);
             game_state.current_color = color_of_card(ai_picked_card);
             game_state.current_turn = "ai";
 
     } else if((value_of_card(ai_picked_card) === "skip" || value_of_card(ai_picked_card) === "reverse")
-               && matches_card_or_wild(ai_picked_card, curr_card)) {
+               && (matches_card_or_wild(ai_picked_card, curr_card) || matches_general(game_state, ai_picked_card.tag, curr_card))){
             game_state.current_color = color_of_card(ai_picked_card);
             console.log(`\nAI placed |${ai_picked_card.tag}|, Player turn skipped\n`);
             game_state.current_turn = "ai";
 
-    } else if(matches_card_or_wild(ai_picked_card, curr_card)) {
+    } else if((typeof value_of_card(ai_picked_card) === "number")
+              && (matches_card_or_wild(ai_picked_card, curr_card)
+                  || color_of_card(ai_picked_card) === game_state.current_color)) {
             game_state.current_color = color_of_card(ai_picked_card);
             console.log(`AI picks: |${ai_input}|`);
             game_state.current_turn = "player";

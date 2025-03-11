@@ -150,6 +150,7 @@ export function player_make_play(game_state: Game_state, player_input: string, c
         delete_card_from_hand(player_pick, game_state.all_hands.player_hand);
 
         if(color_of_card(player_pick) === "wild" && value_of_card(player_pick) === "+4"){
+
                 pick_new_color_wild(game_state);
                 draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.ai_hand, player_pick);
                 console.log("\nAI draws 4\n");
@@ -157,24 +158,34 @@ export function player_make_play(game_state: Game_state, player_input: string, c
                 game_state.current_turn = "player";
 
         } else if (color_of_card(player_pick) === "wild" && value_of_card(player_pick) === "new-color"){
+
                 pick_new_color_wild(game_state);
                 game_state.current_turn = "ai";
 
-        } else if(value_of_card(player_pick) === "+2" && matches_card_or_wild(player_pick, curr_card)){
+        } else if(value_of_card(player_pick) === "+2"
+                  && (matches_card_or_wild(player_pick, curr_card)
+                      || color_of_card(player_pick) === game_state.current_color)){
+
                 console.log("\nAI gets to draw 2 and skip turn\n")
                 draw_plus_2_or_4(game_state.game_deck, game_state.all_hands.ai_hand, player_pick);
                 game_state.current_color = color_of_card(player_pick);
                 game_state.current_turn = "player";
 
         } else if((value_of_card(player_pick) === "skip" || value_of_card(player_pick) === "reverse")
-                       && matches_card_or_wild(player_pick, curr_card)) {
+                       && (matches_card_or_wild(player_pick, curr_card)
+                           || color_of_card(player_pick) === game_state.current_color)) {
+
                 console.log("\nAI turn skipped\n");
                 game_state.current_color = color_of_card(player_pick);
                 game_state.current_turn = "player";
 
-        } else if(typeof value_of_card(player_pick) === "number" && matches_card_or_wild(player_pick, curr_card)) {
+        } else if((typeof value_of_card(player_pick) === "number")
+                   && ((value_of_card(player_pick) === curr_card.CI.value)
+                        || color_of_card(player_pick) === game_state.current_color)) {
+
             game_state.current_color = color_of_card(player_pick);
             game_state.current_turn = "ai";
+
         } else {}
 
     } else {
@@ -273,6 +284,7 @@ function game_run() {
                     help_ops_for_player(game_state, player_input.trim(), current_card);
                 } else {
                     make_play(game_state, player_input, current_card);
+
                 }
 
                 if(check_for_uno(game_state.all_hands.player_hand)){

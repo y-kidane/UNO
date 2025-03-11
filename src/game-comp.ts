@@ -353,5 +353,3 @@ export function starting_game_pile(gp: GamePile, deck: Deck): GamePile {
         }
     }
 }
-
-console.log(typeof starting_game_pile);
