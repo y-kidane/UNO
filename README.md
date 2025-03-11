@@ -1,8 +1,20 @@
 # UNO
 
 #required libraries:
+To play this game you will need the following libraries:
+- Lodash: used for random number generator
+- Promptsync: used for handling player inputs.
 
+#how to install libraries
+install by entering these commands in terminal:
+1. open folder: ../PKD-p/src
+2. npm install lodash
+3. npm install prompt-sync
+4. npm install --save-dev @types/lodash
 
+#how to play
+1. compile by entering in terminal: tsc --strict main.ts
+2. run the program by entering in terminal:  node game-comp.js
 
 
 
