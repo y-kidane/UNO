@@ -321,4 +321,4 @@ function main(){
     game_run();
 }
 
-main();
+//main();

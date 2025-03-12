@@ -22,6 +22,7 @@ export function make_card(col: Color, val: Value): Card {
     };
 }
 
+
 //enqueue an element n times, Theta(n) complexity where n is number of enqueues.
 export function many_enques<T>(n: number, q: Queue<T>, e: T): Queue<T> {
     for(let j = 0; j < n; j++) {

@@ -5,6 +5,7 @@ import { head, tail, is_null, pair } from './list';
  * @template T type of all stack elements
  */
 export type NonEmptyStack<T> = [T, Stack<T>];
+
 export type Stack<T> = null | NonEmptyStack<T>;
 
 /**

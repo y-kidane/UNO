@@ -184,7 +184,6 @@ export function current_top_card(gp: GamePile): Card  {
         throw new Error("cannot take top from empty stack");
     }
 }
-
 //makes an empty game pile
 export function make_gp(): GamePile {
     return empty_s<Card>();

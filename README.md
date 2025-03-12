@@ -15,6 +15,8 @@ install by entering these commands in terminal:
 #how to play
 1. compile by entering in terminal: tsc --strict main.ts
 2. run the program by entering in terminal:  node game-comp.js
+3. follow the printed rules and instructions of the game.
+4. if you want to quit game, enter: quit.
 
 
 
