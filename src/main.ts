@@ -246,7 +246,7 @@ export function make_play(game_state: Game_state, input_str: string, curr_card: 
 }
 
 
-function game_run() {
+function game_run(): void {
     const valid_help_inputs = ["display", "quit", "help", "no card" , "color"];
     if(welcome_screen()){
         game_rule();
@@ -320,5 +320,7 @@ function game_run() {
 function main(){
     game_run();
 }
+
+//uncomment to run
 
 //main();

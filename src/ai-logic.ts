@@ -60,7 +60,7 @@ export function AI_match_col_or_val(hand: Hand, current_card: Card): Array<Card>
             break;
         } else {}
     }
-    return res_card_arr
+    return res_card_arr;
 }
 //returns true if ai can match current card, otherwise empty
 export function can_ai_match(hand: Hand, current_card: Card): boolean {
