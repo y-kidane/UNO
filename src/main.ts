@@ -132,6 +132,7 @@ export function matches_general(game_state: Game_state, pl_input: string, curr_c
     const comp_card: Card = get_card_from_hand(pl_input, game_state.all_hands.player_hand);
     return matches_card_or_wild(comp_card, curr_card) || color_of_card(comp_card) === game_state.current_color;
 }
+//needs bug fix here, invisible but still wrong.
 
 /**
  * handling player inputs and executing card effects
@@ -217,18 +218,18 @@ export function draw_another(gs: Game_state, curr_card: Card): void {
                 gs.current_turn = "ai";
                 break;
             }
-        } else if(input_str === "pick"){
-            const new_pick_from_hand = prompt("Pick a card: ").trim().replace(/\s+/g, " ");
-            player_make_play(gs, new_pick_from_hand, curr_card);
-            break;
-        } else if(input_str === "skip"){
-            console.log("\nSkipped turn, draw 1 card as penalty\n");
-            add_card_to_hand(draw_card_from_deck(gs.game_deck), gs.all_hands.player_hand);
-            gs.current_turn = "ai"
-            break;
-        } else {
-            console.log("\ninvalid input, you can only pick [draw/pick/skip]\n")
-        }
+            } else if(input_str === "pick"){
+                const new_pick_from_hand = prompt("Pick a card: ").trim().replace(/\s+/g, " ");
+                player_make_play(gs, new_pick_from_hand, curr_card);
+                break;
+            } else if(input_str === "skip"){
+                console.log("\nSkipped turn, draw 1 card as penalty\n");
+                add_card_to_hand(draw_card_from_deck(gs.game_deck), gs.all_hands.player_hand);
+                gs.current_turn = "ai"
+                break;
+            } else {
+                console.log("\ninvalid input, you can only pick [draw/pick/skip]\n")
+            }
     }
 }
 

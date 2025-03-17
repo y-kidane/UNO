@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.33% </span>
+                <span class="strong">9.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/153</span>
+                <span class='fraction'>14/152</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.44% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/87</span>
+                <span class='fraction'>0/87</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.33% </span>
+                <span class="strong">9.21% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/153</span>
+                <span class='fraction'>14/152</span>
             </div>
         
             
@@ -374,7 +374,8 @@
 <a name='L309'></a><a href='#L309'>309</a>
 <a name='L310'></a><a href='#L310'>310</a>
 <a name='L311'></a><a href='#L311'>311</a>
-<a name='L312'></a><a href='#L312'>312</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -416,15 +417,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -613,8 +614,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -680,11 +681,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.next_person_turn = next_person_turn;
@@ -726,18 +728,18 @@ function <span class="fstat-no" title="function not covered" >game_conditional(<
  * prints welcome message and asks if user wants to play
  * @returns true if input is "y", false if "n", loop otherwise
  */
-function welcome_screen() {
-    console.log("\nWelcome to UNO. Would you like to play a game against the AI? [y/n]\n ");
-    while (true) {
-        var user_input_start = prompt("Answer: ").trim();
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (user_input_start === "y") {
+function <span class="fstat-no" title="function not covered" >welcome_screen(</span>) {
+<span class="cstat-no" title="statement not covered" >    console.log("\nWelcome to UNO. Would you like to play a game against the AI? [y/n]\n ");</span>
+<span class="cstat-no" title="statement not covered" >    while (true) {</span>
+        var user_input_start = <span class="cstat-no" title="statement not covered" >prompt("Answer: ").trim();</span>
+<span class="cstat-no" title="statement not covered" >        if (user_input_start === "y") {</span>
 <span class="cstat-no" title="statement not covered" >            return true;</span>
         }
-        else if (user_input_start === "n") {
-            console.log("No worries, have a good day!");
-            return false;
+        else <span class="cstat-no" title="statement not covered" >if (user_input_start === "n") {</span>
+<span class="cstat-no" title="statement not covered" >            console.log("No worries, have a good day!");</span>
+<span class="cstat-no" title="statement not covered" >            return false;</span>
         }
-        else <span class="missing-if-branch" title="else path not taken" >E</span>{
+        else {
 <span class="cstat-no" title="statement not covered" >            console.log("invalid input, try again\n");</span>
         }
     }
@@ -923,9 +925,9 @@ function <span class="fstat-no" title="function not covered" >make_play(</span>g
 <span class="cstat-no" title="statement not covered" >        (0, ai_logic_1.ai_make_play)(game_state, input_str, curr_card);</span>
     }
 }
-function game_run() {
-    var valid_help_inputs = ["display", "quit", "help", "no card", "color"];
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (welcome_screen()) {
+function <span class="fstat-no" title="function not covered" >game_run(</span>) {
+    var valid_help_inputs = <span class="cstat-no" title="statement not covered" >["display", "quit", "help", "no card", "color"];</span>
+<span class="cstat-no" title="statement not covered" >    if (welcome_screen()) {</span>
 <span class="cstat-no" title="statement not covered" >        game_rule();</span>
         var game_state = <span class="cstat-no" title="statement not covered" >{</span>
             all_hands: { ai_hand: {}, player_hand: {} },
@@ -992,10 +994,11 @@ function game_run() {
     }
 }
 //run function main() to play game.
-function main() {
-    game_run();
+function <span class="fstat-no" title="function not covered" >main(</span>) {
+<span class="cstat-no" title="statement not covered" >    game_run();</span>
 }
-main();
+//uncomment to run
+//main();
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -1003,7 +1006,7 @@ main();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-12T01:33:16.605Z
+                at 2025-03-12T17:57:23.148Z
             </div>
         <script src="../prettify.js"></script>
         <script>
